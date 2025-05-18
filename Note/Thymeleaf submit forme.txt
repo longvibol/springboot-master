@@ -1,0 +1,14 @@
+Form Submit with Thymeleaf : 
+
+
+<form th:action="@{/saveMsg}" method="post" class="signin-form">
+
+
+--------------------------------------------
+
+When we click the button sendMessage it will submit the forme and it invoke the th:action="@{/saveMsg}" Path 
+
+- It use POST message to the backEnd 
+
+
+

@@ -1,0 +1,245 @@
+Spring Boot Mater Take Note 
+
+1. Configuer port 
+
+server.port=8081
+
+2. Config context-path 
+
+server.servlet.context-path=/eazyschool
+
+3.config random port (0 port): testing 
+When we want to do testing then no need to take care on port deplicate 
+
+server.port = 0
+
+4. config default port 
+
+@Controller
+public class HomePage {
+
+    @RequestMapping(value = {"/home","/",""})
+    public String displayHomepage(){
+        return "home.html";
+    }
+}
+
+==>  @RequestMapping(value = {"/home","/",""}) : we put the path in the {}
+
+
+* Compare software : scootersoftware 
+
+https://www.scootersoftware.com/download
+
+5. Use Thymeleaf for UI interface 
+
+in controller : 
+
+@RequestMapping(value = {"/home","/",""})
+    public String displayHomepage(Model model){
+        model.addAttribute("username","Long Vibol");
+
+        return "home.html";
+    }
+
+--- in the Thymeleaf it used Template so we need to add the html that we want to view to the Template in the Maven 
+
+
+6. disable Thymeleaf catch 
+
+in application.properties 
+
+spring.thymeleaf.cache=false 
+
+
+** 7 When we don't need to include the business logic inside the controller we not need to create Control 
+
+We can use : Show only static webpage 
+
+@Configuration
+public class WebConfig implements WebMvcConfigurer{
+	
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/courses").setViewName("courses");
+	}
+
+}
+
+Step : 1 create WebConfig class then Implements from WebMvcConfigurer ==> Override addViewControllers 
+
+===============================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
