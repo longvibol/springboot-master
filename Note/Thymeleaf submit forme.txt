@@ -11,4 +11,9 @@ When we click the button sendMessage it will submit the forme and it invoke the 
 - It use POST message to the backEnd 
 
 
+-------------------- to display each element from backing "iterate in Thymeleaf"
+
+<div th:each="holiday : ${FESTIVAL}" class="column">
+
+
 
