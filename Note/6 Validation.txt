@@ -1,17 +1,37 @@
-package com.eazybytes.eazyschool.model;
+1-Validate in Front End 
 
+In contact.html 
 
+<input type="text" name="name" id="name" placeholder="Your Name" required="true"
+                                        class="contact-input" />
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import lombok.Data;
+<input type="email" name="email" id="email" placeholder="Your Email" required="true"
+                                class="contact-input" />
 
-@Data
-public class Contact {
+we use : required="true
 
-    /*
+---------------------------------------------
+
+But if someone it smarter so they can change at the FE page 
+
+2- Spring validation : we put the annotation in the class or it mean we validate in out bean because it is the object in the java OOP 
+
+Step by Step to create validation:
+
+Step 1 : 
+
+Add dependency : 
+
+<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
+--------------------------------
+
+In the class POJO class Contact model 
+
+/*
     * @NotNull: Checks if a given field is not null but allows empty values & zero elements inside collections.
       @NotEmpty: Checks if a given field is not null and its size/length is greater than zero.
       @NotBlank: Checks if a given field is not null and trimmed length is greater than zero.
@@ -37,4 +57,43 @@ public class Contact {
     private String message;
 
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

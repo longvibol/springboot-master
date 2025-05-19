@@ -1,0 +1,94 @@
+- Request Param: we use to send the request from the FE to BE 
+
+Step by Step to create Request Param :
+
+1. in footer 
+
+<div class="col-lg-2 col-md-3 col-6 ps-lg-5 ps-lg-4 footer-list-29 mt-md-0 mt-4">
+                        <ul>
+                            <h6 class="footer-title-29">Explore</h6>
+                            <li><a th:href="@{/holidays(festival='true',federal='true')}">Holidays</a></li>
+                            <li><a th:href="@{/contact}">Privacy policy</a></li>
+                            <li><a th:href="@{/contact}">Contact Us</a></li>
+                            <li><a th:href="@{/contact}">License & uses</a></li>
+                            <li><a th:href="@{/courses}">Courses</a></li>
+                        </ul>
+                    </div>
+
+==> <li><a th:href="@{/holidays(festival='true',federal='true')}">Holidays</a></li>
+
+This tag in thymeleaf : when they click on the holiday link it will tricker the requestParam 
+
+http://localhost:8080/holidays?festival=true&federal=false
+
+2. in the holidayController 
+
+@RequestMapping("/holidays")
+	public String displayHoliday(@RequestParam(required = false, name="festival") boolean festival,
+								@RequestParam(required= false) boolean federal,Model model) {
+		model.addAttribute("festival",festival);
+		model.addAttribute("federal", federal);
+
+
+Note: 
+
+- @RequestParam(required = false, name="festival") boolean festival : required = false no mandatory ; name="festival" we alis the request Param to the custom name.
+
+- model.addAttribute("festival",festival) : we addAttribute to the FE : it have two parament : 
+"festival"(1),festival(2) we use to bind to the FE : 
+- (1) <==> <div class="col-lg-6" th:if="${festival}==true">
+- (2) <==> boolean festival (from parameter in our method)
+
+3.Display in the holiday.html 
+
+<div class="row">
+                <div class="col-lg-6" th:if="${festival}==true">
+                    <h5 class="sub-title-timeline"><i class="fas fa-snowman"></i> Festival Holidays</h5>
+                    <div class="timeline">
+                        <div class="timeline">
+                            <div th:each="holiday : ${FESTIVAL}" class="column">
+                                <div class="title">
+                                    <h2 th:text="${holiday.reason}"></h2>
+                                </div>
+                                <div class="description">
+                                    <h6 th:text="${holiday.day}" class="fas fa-calendar-alt"><i class="fas fa-calendar-alt"></i></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+if it get th:if="${festival}==true" it will render the page if not it will skip 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
