@@ -1,0 +1,114 @@
+1 . @RequestScope (refer to http request send)
+
+In the class ContactService
+
+@Slf4j
+@Service
+@RequestScope
+@Data
+public class ContactService {
+	
+	private int counter=0;
+	
+	public ContactService() {
+		System.out.println("Contact Service Bean initialized");
+	}
+	
+	public boolean saveMessageDetails(Contact contact) {
+		boolean isSaved = true;
+		//TODO need to persist  the data into the DB table 		
+		log.info(contact.toString());
+		return isSaved;
+	}
+
+}
+
+---------------------------------------------------------------------------------------------------------
+
+
+- Mean that when we put the @RequestScope: the bean in this class when it create object base on the Http request.
+
+- every request from HTML : the counter will be reset to 0 
+
+- the constructor will be initial to the first start 
+
+==> System.out.println("Contact Service Bean initialized")
+
+ចឹងមានន័យថា បើមាន user send update contact to the back 100 Request it will create 100 object or bean the same. 
+
+======================================================================================================
+
+2. @SessionScope (refer to user or one brower) 
+
+It will creates only one time bean from the http request : 
+
+- counter will increase 1 ; 2 ; 3
+- But for the : System.out.println ("Contact Service Bean initialized") it create only one time because it create only one bean in the " class ContactService"
+
+** To make this scenario happened : We can open another brower and send the contact page ** 
+
+Then it will create another bean for the new user or the new brower :
+- counter will start from one again 
+- System.out.println("Contact Service Bean initialized") it will create again in the log. 
+
+Testing :  
+
+* Brower 1, Send two time:
+
+- counter increase 1 ; 2 
+- Bean create only 1 Time 
+
+* Brower 2, Send two time:
+
+- counter start from 1 then increate to 2 
+- Bean create again for another brower 
+
+
+======================================================================================================
+
+3. @ApplicationScope ( most use : from different user, from differnt brower, from differ computer)
+
+Bean only create on time but the counter will increase and it never reset. 
+
+Until we restart the application.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

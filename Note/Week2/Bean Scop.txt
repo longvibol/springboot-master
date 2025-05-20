@@ -1,0 +1,62 @@
+There are three in the Web Scopes : 
+
+1. Request Scope : 
+- Sprint create a lot of instance of this bean in the app's memory for each HTTP request 
+- In the class we avoid to put more business logic because in Spring request Scope it will consuming a lot of memory 
+==> Can be considered for the scenarios where the data needs to be reset after new request or page refresh 
+Ex: user name, password verify 
+
+វាប្រើច្រើនសម្រាប់ HTTP request និងវាមាន live time so short => so it will have more Grabit in the memory 
+
+
+2. Session Scope 
+- Session scoped beans have longer life & they are less frequently garbage collected. 
+- Avoid keeping too much information inside session data as it impacts performance. 
+Never store sensitive information as well. 
+
+EX: like credit card, bank account it mean the value 
+
+- Can be considered for the scenarios where the same data needs to be accessed across multiple
+pages like user information. 
+
+យើងគិតទៅបើវាប្រើលើ 5 Min យើងអាចប្រើវាបាន ដោយសារតែ វាមិនចំបាច់រក្សា ក្នុង Memory ច្រើន
+
+Ex: Brand Detail 
+
+3. Application Scope 
+- In the application scope, Spring creates a bean instance per web application runtime. 
+- It is similar to single scope. 
++ Singleton scoped bean is singleton per ApplicationContext 
++ Application Scoped bean is singleton per ServeletContext 
+
+Considered scenarios : 
+
+1-We want to store Drop Down values.
+2-Reference table values which won't change for all the users. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   

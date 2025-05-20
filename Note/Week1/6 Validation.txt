@@ -66,9 +66,7 @@ In the class POJO class Contact model
 	    }
 
 This mapping it return only the contact.html but don't have validation. 
-- Therefore we want when they go to that url it will return the first contact.html 
-
-
+Therefore we want when they go to that url it will return the first contact.html 
 
 
 
