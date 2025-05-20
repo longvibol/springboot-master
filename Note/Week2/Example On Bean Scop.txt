@@ -61,7 +61,7 @@ Testing :
 * Brower 2, Send two time:
 
 - counter start from 1 then increate to 2 
-- Bean create again for another brower 
+- Bean create again for another brwoer 
 
 
 ======================================================================================================
@@ -72,8 +72,33 @@ Bean only create on time but the counter will increase and it never reset.
 
 Until we restart the application.  
 
+Testing :  
 
+* Brower 1, Send two time:
 
+- counter increase 1 ; 2 
+- Bean create only 1 Time 
+
+* Brower 2, Send two time:
+
+- counter increase 3 then 4 
+- No Bean create (it use the same Brower 1) 
+
+Result Log:
+
+Contact Service Bean initialized
+
+-2025-05-20T16:21:19.050+07:00  INFO 14124 --- [nio-8080-exec-6] c.e.eazyschool.service.ContactService    : Contact(name=Vibol-01, mobileNum=0960000001, email=vibol1@gmail.com, subject=Test 1, message=Hello My Name Is Vibol Want To Learn System Architecture-01! )
+2025-05-20T16:21:19.051+07:00  INFO 14124 --- [nio-8080-exec-6] c.e.e.controller.ContactController       : Number of times the Contact form is submited count: 1
+
+- 2025-05-20T16:21:49.509+07:00  INFO 14124 --- [nio-8080-exec-8] c.e.eazyschool.service.ContactService    : Contact(name=Vibol-02, mobileNum=0960000002, email=vibol2@gmail.com, subject=Test 2, message=Hello My Name Is Vibol Want To Learn System Architecture-02! )
+2025-05-20T16:21:49.509+07:00  INFO 14124 --- [nio-8080-exec-8] c.e.e.controller.ContactController       : Number of times the Contact form is submited count: 2
+
+- 2025-05-20T16:26:11.794+07:00  INFO 14124 --- [nio-8080-exec-6] c.e.eazyschool.service.ContactService    : Contact(name=Vibol-03, mobileNum=0960000003, email=vibol3@gmail.com, subject=Test 3, message=Hello My Name Is Vibol Want To Learn System Architecture-03! )
+2025-05-20T16:26:11.794+07:00  INFO 14124 --- [nio-8080-exec-6] c.e.e.controller.ContactController       : Number of times the Contact form is submited count: 3
+
+- 2025-05-20T16:26:42.005+07:00  INFO 14124 --- [nio-8080-exec-8] c.e.eazyschool.service.ContactService    : Contact(name=Vibol-04, mobileNum=0960000004, email=vibol4@gmail.com, subject=Test 4, message=Hello My Name Is Vibol Want To Learn System Architecture-04! )
+2025-05-20T16:26:42.005+07:00  INFO 14124 --- [nio-8080-exec-8] c.e.e.controller.ContactController       : Number of times the Contact form is submited count: 4
 
 
 
