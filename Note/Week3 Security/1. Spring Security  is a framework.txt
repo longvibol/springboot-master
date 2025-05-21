@@ -46,7 +46,7 @@ Search in Eclipse : Ctrl + shift + T (search) : SpringBootWebSecurityConfigurati
 + http.build(); = it will invoke the http.build() it will return an object of SecurityFilterChain base on our configuration that we have mention here. 
 
 
-
++ Spring Boot Profile 
 
 
 ---------------------------------------------------------------------------------------
