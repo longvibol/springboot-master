@@ -1,0 +1,138 @@
+1. Spring Security : is a framework that provides authentication, authorization, and protection against common attacks. 
+
+- helps developers with easier configurations to secure a web application by using standard username/password
+authentication mechanism. 
+
+- Spring security provides out of the box features to handle common security attacks like CSRF, CORs. 
+It also has good integration with security standards like JWT, OAUTH2 etc. 
+ 
+=============================================================
+
+- Authentication = Clam who you are 
+- Authorization = What is your Role (admin, user)
+
+=============================================================
+
+2. Config the UserName and Password:
+
+spring.security.user.name=user
+spring.security.user.password = 12345
+
+
+3. Customize the Web login 
+
+Search in Eclipse : Ctrl + shift + T (search) : SpringBootWebSecurityConfiguration
+
+@Configuration(proxyBeanMethods = false)
+
+@Bean
+		@Order(SecurityProperties.BASIC_AUTH_ORDER)
+		SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+			http.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated());
+			http.formLogin(withDefaults());
+			http.httpBasic(withDefaults());
+			return http.build();
+		}
+
+- It have Method : defaultSecurityFilterChain that accept the HttpSecurity and return : SecurityFilterChain
+- It have Annotation @Bean so when the application start it will create object in spring IOC container 
+- It also have @Configuration = mean it will exercute the Method : defaultSecurityFilterChain
+
++ http.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated()); = all the path in side our application are security. 
+- authenticated() : secure all the Api request 
+
++ http.formLogin(withDefaults()) and http.httpBasic(withDefaults()); it enforce all the login and security environment 
+
++ http.build(); = it will invoke the http.build() it will return an object of SecurityFilterChain base on our configuration that we have mention here. 
+
+
+
+
+
+---------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
