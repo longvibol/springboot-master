@@ -1,10 +1,11 @@
 package com.eazybytes.eazyschool.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
@@ -14,6 +15,8 @@ public class DashboardController {
     public String displayDashboard(Model model,Authentication authentication) {
         model.addAttribute("username", authentication.getName());
         model.addAttribute("roles", authentication.getAuthorities().toString());
+        
+//        throw new RuntimeException("this is a bed day"); = for testing Expcetion handdler 
         return "dashboard.html";
     }
 

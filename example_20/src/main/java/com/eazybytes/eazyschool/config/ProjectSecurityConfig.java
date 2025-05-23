@@ -4,6 +4,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,11 +24,12 @@ public class ProjectSecurityConfig {
 		http.httpBasic(withDefaults());
 		return http.build();
 	}
-	*/	
+	
 	
 	@Bean
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeHttpRequests((requests) -> {
+		http.csrf().ignoringRequestMatchers("/saveMsg").and()
+			.authorizeHttpRequests((requests) -> {
 			try {
 				requests
 						.requestMatchers("/dashboard").authenticated()
@@ -35,13 +37,14 @@ public class ProjectSecurityConfig {
 						.requestMatchers("/holidays/**").permitAll()
 						.requestMatchers("/contact").permitAll()
 						.requestMatchers("/saveMsg").permitAll()
-						.requestMatchers("/courses").authenticated()
+						.requestMatchers("/courses").permitAll()
 						.requestMatchers("/about").permitAll()
 						.requestMatchers("/assets/**").permitAll()	
 						.requestMatchers("/login").permitAll()
+						.requestMatchers("/logout").permitAll()
 						.and().formLogin().loginPage("/login")
 						.defaultSuccessUrl("/dashboard").failureUrl("/login?error=true").permitAll()
-						.and().logout().logoutSuccessUrl("/login?logout=true").invalidateHttpSession(true).permitAll()
+//						.and().logout().logoutSuccessUrl("/login?logout=true").invalidateHttpSession(true).permitAll()
 						.and().httpBasic();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -50,6 +53,33 @@ public class ProjectSecurityConfig {
 				
 		return http.build();
 	}
+	*/		
+	
+	@Bean
+	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+	    http
+	        .csrf(csrf -> csrf.ignoringRequestMatchers("/saveMsg")) // Ignore CSRF for this endpoint
+	        .authorizeHttpRequests(auth -> auth
+	            .requestMatchers("/dashboard").authenticated()
+	            .requestMatchers("/", "/home", "/holidays/**", "/contact", "/saveMsg", 
+	                             "/courses", "/about", "/assets/**", "/login", "/logout")
+	            .permitAll()
+	        )
+	        .formLogin(login -> login
+	            .loginPage("/login")
+	            .defaultSuccessUrl("/dashboard")
+	            .failureUrl("/login?error=true")
+	            .permitAll()
+	        )
+	        .httpBasic(Customizer.withDefaults());
+
+	    return http.build();
+	}
+	
+	
+	
+	
+	
 	
 	@Bean
 	public InMemoryUserDetailsManager userDetailsManager() {

@@ -1,0 +1,146 @@
+** Anable CSRF in spring security ** 
+
+1. in the ProjectSecurityConfig 
+
+http.csrf().ignoringRequestMatchers("/saveMsg").and()
+
+= មានន័យថារាល់ page ទាំងអស់ យើងដាក់ CSRF លើកលែងតែ /saveMsg = page 
+
+==> ចឹងសម្រាប់ Page Login យើងត្រូវបង្កើត CRSF token from Thymeleaf when it request login it will send the CRSF token to the backend 
+
+
+=================================== Controller 
+
+@Bean
+	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+		http.csrf().ignoringRequestMatchers("/saveMsg").and()
+			.authorizeHttpRequests((requests) -> {
+			try {
+				requests
+						.requestMatchers("/dashboard").authenticated()
+						.requestMatchers("/","/home").permitAll()
+						.requestMatchers("/holidays/**").permitAll()
+						.requestMatchers("/contact").permitAll()
+						.requestMatchers("/saveMsg").permitAll()
+						.requestMatchers("/courses").authenticated()
+						.requestMatchers("/about").permitAll()
+						.requestMatchers("/assets/**").permitAll()	
+						.requestMatchers("/login").permitAll()
+						.requestMatchers("/logout").permitAll()
+						.and().formLogin().loginPage("/login")
+						.defaultSuccessUrl("/dashboard").failureUrl("/login?error=true").permitAll()
+						.and().logout().logoutSuccessUrl("/login?logout=true").invalidateHttpSession(true).permitAll()
+						.and().httpBasic();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+				
+		return http.build();
+	}
+
+===================================================================================================
+
+
+In the Controller : we create /logout controller becuae we want the controller to control out logout page 
+
+// we create new logout controller   
+    @GetMapping("/logout")
+    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+    	
+    	// we want to get the user auth after login page 
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	
+    	// we check the auth user if it have 
+    	if(auth != null) {
+    		// it we find and see it have the auth still login when they click on logout we need to relese them auth 
+    		new SecurityContextLogoutHandler().logout(request, response, auth);
+    	}
+    	
+    	return "redirect:/login?logout=true";
+    }
+
+
+====================================================================================
+
+2. Then we add the action code in the HTML login page: when we create login it will create CSRF token to the backing 
+
+
+ <form th:action="@{/login}" method="post" class="signin-form">
+                    <div class="col-md-8 login-center input-grids">
+                        <li class="alert alert-danger" role="alert" th:if="${!#strings.isEmpty(errorMessge)}"
+                            th:text="${errorMessge}" />
+                        <input type="text" name="username" id="username" placeholder="Username"
+                               class="login-input" />
+                        <input type="password" name="password" id="password" placeholder="Password"
+                               class="login-input" />
+							   <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    </div>
+                    <div class="col-md-8 login-center text-start">
+                        <button class="btn btn-style btn-style-3 text-left">Log In</button>
+                        <a class="new-user text-right" href="">New User ?</a>
+                    </div>
+                </form>
+
+
+what we have change: 
+-<form th:action="@{/login}" method="post" class="signin-form"> : we need to create form action from Thymeleaf
+
+- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> what we add to ask Thymeleaf to crate CSRF token to the backend 
+
+
+3. check out defaultSecurityFilterChain
+
+	@Bean
+	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+	    http
+	        .csrf(csrf -> csrf.ignoringRequestMatchers("/saveMsg")) // Ignore CSRF for this endpoint
+	        .authorizeHttpRequests(auth -> auth
+	            .requestMatchers("/dashboard").authenticated()
+	            .requestMatchers("/", "/home", "/holidays/**", "/contact", "/saveMsg", 
+	                             "/courses", "/about", "/assets/**", "/login", "/logout")
+	            .permitAll()
+	        )
+	        .formLogin(login -> login
+	            .loginPage("/login")
+	            .defaultSuccessUrl("/dashboard")
+	            .failureUrl("/login?error=true")
+	            .permitAll()
+	        )
+	        .httpBasic(Customizer.withDefaults());
+
+	    return http.build();
+	}
+
+===============================================================
+
+** Conclution: 
+
+1. When we change on the brower : in the application : if we search for the csrf in the html we will see the 
+
+<input type="hidden" name="_csrf" value="XnTDQeV6irJ_ljo8VvS0CsucVBZTJHFnFSbILeNr1mueURi8aE2hIt1KudZSpFsKYNmAO6_9eXcyFhJKI0f8FYAK4gj7M3mI">
+
+
+2. in the Application : 
+
+We don't see the CSRF store inside the cookies 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

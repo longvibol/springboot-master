@@ -1,0 +1,113 @@
+Globle Exception Handdler is what we want to show to user when it have error happen inside the spring 
+
+1. Setup GlobalExceptionController
+
+in the controller : we create class : GlobalExceptionController
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@ControllerAdvice
+public class GlobalExceptionController {
+	
+	@ExceptionHandler(Exception.class)
+	public ModelAndView exceptionHandler(Exception exception) {
+		ModelAndView errorPage = new ModelAndView();
+		errorPage.setViewName("error");
+		errorPage.addObject("errormsg",exception.getMessage());
+		return errorPage;
+	}
+	
+
+}
+
+Note: 
+
+- First we need to add : @ControllerAdvice : to tell spring boot we redirect to our customer Expection handler 
+- add :  @ExceptionHandler(Exception.class) : in out own expection we want to catch : 
+- ModelAndView errorPage = new ModelAndView(); what we want to show to out FE  
+
+
+2. Setup Error page : when sth happen it will show this page to the FE  
+
+Add Thymeleaf sec :
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+
+<section class="page_404">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 ">
+                <div class="col-sm-10 col-sm-offset-1  text-center">
+                    <div class="four_zero_four_bg">
+                        <h1 class="text-center">oops...</h1>
+                    </div>
+                    <div class="contant_box_404">
+                        <h3 class="h2">
+                            Look like you're lost
+                        </h3>
+                        <p th:text="${'Error Message - ' + errormsg}"></p>
+                        <a th:href="@{/home}" class="link_404 btn btn-style btn-style-3">Go to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+------> 
+
+<p th:text="${'Error Message - ' + errormsg}"></p>
+<a th:href="@{/home}" class="link_404 btn btn-style btn-style-3">Go to Home</a>
+ 
+- errormsg : is our variable where we get from controller setup 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
