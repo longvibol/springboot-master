@@ -1,7 +1,6 @@
 package com.eazybytes.eazyschool.config;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -14,6 +13,53 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class ProjectSecurityConfig {
 	
+	@Bean
+	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+	    http
+	    	// Ignore CSRF for this end point
+	        .csrf(csrf -> 
+	        		csrf
+	        		.ignoringRequestMatchers("/saveMsg")
+	        		.ignoringRequestMatchers(PathRequest.toH2Console())) 
+	        .authorizeHttpRequests(auth -> auth
+	            .requestMatchers("/dashboard").authenticated()
+	            .requestMatchers(PathRequest.toH2Console()).permitAll()
+	            .requestMatchers("/displayMessages").hasRole("ADMIN")
+	            .requestMatchers("/closeMsg/**").hasRole("ADMIN")
+	            .requestMatchers("/", "/home", "/holidays/**", "/contact", "/saveMsg", 
+	                             "/courses", "/about", "/assets/**", "/login", "/logout","/h2-console/**")
+	  
+	            .permitAll()
+	        )
+	        .formLogin(login -> login
+	            .loginPage("/login")
+	            .defaultSuccessUrl("/dashboard")
+	            .failureUrl("/login?error=true")
+	            .permitAll()
+	        )
+	        
+	        .httpBasic(Customizer.withDefaults())
+	    .headers().frameOptions().disable();
+
+	    return http.build();
+	}	
+	
+	//Create temporary user 
+	@Bean
+	public InMemoryUserDetailsManager userDetailsManager() {
+		UserDetails admin = User.withDefaultPasswordEncoder()
+				.username("user")
+				.password("12345")
+				.roles("USER")
+				.build();
+		UserDetails user = User.withDefaultPasswordEncoder()
+				.username("admin")
+				.password("12345")
+				.roles("ADMIN")
+				.build();		
+		return new InMemoryUserDetailsManager(user, admin);				
+				
+	}	
 	
 	/*
 	@Bean
@@ -55,47 +101,7 @@ public class ProjectSecurityConfig {
 	}
 	*/		
 	
-	@Bean
-	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-	    http
-	        .csrf(csrf -> csrf.ignoringRequestMatchers("/saveMsg")) // Ignore CSRF for this endpoint
-	        .authorizeHttpRequests(auth -> auth
-	            .requestMatchers("/dashboard").authenticated()
-	            .requestMatchers("/", "/home", "/holidays/**", "/contact", "/saveMsg", 
-	                             "/courses", "/about", "/assets/**", "/login", "/logout")
-	            .permitAll()
-	        )
-	        .formLogin(login -> login
-	            .loginPage("/login")
-	            .defaultSuccessUrl("/dashboard")
-	            .failureUrl("/login?error=true")
-	            .permitAll()
-	        )
-	        .httpBasic(Customizer.withDefaults());
-
-	    return http.build();
-	}
 	
-	
-	
-	
-	
-	
-	@Bean
-	public InMemoryUserDetailsManager userDetailsManager() {
-		UserDetails admin = User.withDefaultPasswordEncoder()
-				.username("user")
-				.password("12345")
-				.roles("USER")
-				.build();
-		UserDetails user = User.withDefaultPasswordEncoder()
-				.username("admin")
-				.password("12345")
-				.roles("USER","ADMIN")
-				.build();		
-		return new InMemoryUserDetailsManager(user, admin);				
-				
-	}	
 
 }
 

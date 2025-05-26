@@ -1,0 +1,164 @@
+Save contact to DB
+
+1. Create POJO class : Contact
+
+@Data
+public class Contact extends BaseEntity{
+
+    private int contactId;
+
+    @NotBlank(message="Name must not be blank")
+    @Size(min=3, message="Name must be at least 3 characters long")
+    private String name;
+
+    @NotBlank(message="Mobile number must not be blank")
+    @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
+    private String mobileNum;
+
+    @NotBlank(message="Email must not be blank")
+    @Email(message = "Please provide a valid email address" )
+    private String email;
+
+    @NotBlank(message="Subject must not be blank")
+    @Size(min=5, message="Subject must be at least 5 characters long")
+    private String subject;
+
+    @NotBlank(message="Message must not be blank")
+    @Size(min=10, message="Message must be at least 10 characters long")
+    private String message;
+
+    private String status;
+}
+
+2. Create POJO Class : BaseEntity 
+
+@Data
+public class BaseEntity {
+
+    private LocalDateTime createdAt;
+    private String createdBy;
+    private LocalDateTime updatedAt;
+    private String updatedBy;
+}
+
+
+3. Contact Repository : Take to DB (saveContactMsg)
+
+: We use JDBC template so we can create our query to the db 
+
+@Repository
+public class ContactRepository {
+
+    private final JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    // Constructor injection 
+    public ContactRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public int saveContactMsg(Contact contact){
+        String sql = "INSERT INTO CONTACT_MSG (NAME,MOBILE_NUM,EMAIL,SUBJECT,MESSAGE,STATUS," +
+                "CREATED_AT,CREATED_BY) VALUES (?,?,?,?,?,?,?,?)";
+        return jdbcTemplate.update(sql,contact.getName(),contact.getMobileNum(),
+                contact.getEmail(),contact.getSubject(),contact.getMessage(),
+                contact.getStatus(),contact.getCreatedAt(),contact.getCreatedBy());
+    }
+}
+
+
+----------------------------------------------------------------------------------------------
+
+Explain :  private final JdbcTemplate jdbcTemplate; 
+Is what we use Spring JDBC autowire then we can get help from jdbcTemplate to write our query to the backend 
+
+4.Contact Service: Our Business login what we want to do (saveMessageDetails)
+
+@Slf4j
+@Service
+public class ContactService {
+	
+	@Autowired
+	private ContactRepository contactRepository;
+
+	
+	public ContactService() {
+		System.out.println("Contact Service Bean initialized");
+	}
+	
+	public boolean saveMessageDetails(Contact contact) {
+		boolean isSaved = true;
+		contact.setStatus(EazySchoolConstants.OPEN);
+		contact.setCreatedBy(EazySchoolConstants.ANOUNYMOUS);
+		contact.setCreatedAt(LocalDateTime.now());
+		int result = contactRepository.saveContactMsg(contact);
+		if(result>0) {
+			isSaved = true;
+		}
+		return isSaved;
+	}
+
+}
+
+
+5. Controller : What is the end point "/saveMsg" (when it Use POST it will save to Database)  
+
+
+@PostMapping("/saveMsg")
+	public String saveMessage(@Valid @ModelAttribute("contact") Contact contact, Errors errors) {
+		if(errors.hasErrors()) {
+			log.error("Contact form validation failed due to : "+ errors.toString());
+			return "contact.html";
+		}
+		contactService.saveMessageDetails(contact);
+		return "redirect:/contact";
+		
+	}
+
+================================================================================================
+
+My Error during ruing first : null pointer expection (I forget put the @Autowire in the repository) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

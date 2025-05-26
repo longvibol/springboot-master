@@ -1,15 +1,20 @@
 package com.eazybytes.eazyschool.model;
 
-
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+/*
+@Data annotation is provided by Lombok library which generates getter, setter,
+equals(), hashCode(), toString() methods & Constructor at compile time.
+This makes our code short and clean.
+* */
 @Data
-public class Contact {
+public class Contact extends BaseEntity{
+
+    private int contactId;
 
     /*
     * @NotNull: Checks if a given field is not null but allows empty values & zero elements inside collections.
@@ -36,5 +41,5 @@ public class Contact {
     @Size(min=10, message="Message must be at least 10 characters long")
     private String message;
 
-
+    private String status;
 }

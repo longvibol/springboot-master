@@ -1,0 +1,79 @@
+Spring JDBC : 
+
+- In order to talk to Database in order to perform : Delete, update, select we need an frame work to talk to database to. 
+
+=============================================
+
+Key points of JDBC :
+
++ JDBC: java Database Connectivity is a specification from Core Java that provide a standard abstraction for java apps to communication with various database. 
+
++ To access database : JDBC API along with the database driver is capable of accessing database
++ JDBC is a base framework or standard for frameworks like Hibernate, Spring Data JPA, MayBatis etc. 
+
+===============================================
+
+Steps in JDBC to access DB :
+
+1. Load Driver Class
+2. Obtain a DB connection 
+3. Obtain a statement using connection object 
+4. Execute the query 
+5. Process the result set 
+6. Close the connection
+
+
+=====================================================================================
+
+Key term to remember in spring jdbc:
+
+- Template : Predefine connection (it will prepare the setup for us then connect to database)-Operation 
+- we use ?​(where is the place holder) for where connection : in is jdbcTemplate 
+- NameedParameterJDBCTemplate : គេប្រើ ឈ្មោះជំនួស ? វីញ វាស្រួលកុំអោយឃើញ ? ច្រើនពេក​
+
+Responsible for the Spring JDBC and Developer 
+
++ Developer :
+- Define connection parameters : what we want to connection : MySQL, Oracle, Postgress etc. 
+- Specify the SQL statement : CRUD: Create, Read, Update, and Delete 
+- Declare parameters and provide parameter value. 
+- Do the work for each iteration 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

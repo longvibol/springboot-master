@@ -1,0 +1,98 @@
+We want when we login in the Admin we want to show the message that we can see the message from user.
+
+1. use Thymeleaf to control the ROLE in the template 
+
+In side the dashboard : 
+
+<div class="container py-md-5 py-4">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row m-t-25">
+                <div class="col-sm-6 col-lg-3" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a th:href="@{/displayMessages}">
+                    <div class="overview-item overview-item--c3">
+                        <div class="overview__inner">
+                            <div class="overview-box clearfix">
+                                <div class="icon">
+                                    <i class="fas fa-envelope-open-text"></i>
+                                </div>
+                                <div class="text">
+                                    <h2>Messages</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+-----------------------------------------------------------------------------
+
+
+Explain : 
+
++ sec:authorize="hasRole('ROLE_ADMIN') : by put this sec: it will show this message to the ROLE that have the Admin. 
+
+2. inside the : ProjectSecurityConfig
+
+@Bean
+	public InMemoryUserDetailsManager userDetailsManager() {
+		UserDetails admin = User.withDefaultPasswordEncoder()
+				.username("user")
+				.password("12345")
+				.roles("USER")
+				.build();
+		UserDetails user = User.withDefaultPasswordEncoder()
+				.username("admin")
+				.password("12345")
+				.roles("ADMIN")
+				.build();		
+		return new InMemoryUserDetailsManager(user, admin);				
+				
+	}	
+
+Explain : in the spring security it will create Prefix for us : "ROLE_"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
