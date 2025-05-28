@@ -1,0 +1,65 @@
+
+springframwork.data.repository 
+
+1. Repository<T,ID> : Take to database 
+
++ T : the domain type the repository manages : is the class we want to manage 
++ ID : is the primary key inside the class (if ID is Integer) the ID = Integer 
+
+2. CrudRepository (do operation) 
+
+We just provide only the POJO class to the spring dat jpa. therefore it will do the majic for us :
+- count, delete, deleteAll, ….
+
+3. ListCrudRepository<T, ID> extends CrudRepository<T, ID>
+
+ListCrudRepository : it provide the set of method and return the list of our class 
+
+Example : List<T> findAll();
+
+4. PagingAndSortingRepository<T, ID> extends Repository<T, ID> 
+
+request limit page : it have only two method:
+- findAll(Sort sort);
+- findAll(Pageable pageable);
+
+5. ListPagingAndSortingRepository<T, ID> extends PagingAndSortingRepository<T, ID>
+
+It return the list of page
+
+- List<T> findAll(Sort sort);
+
+
+==================================================
+
+Importance note :
+
+1. @Repository is the spring annotation to make the class talk to database 
+- Spring Data Repository interface : is the interface in spring data jpa 
+
+
+2. មេចបានមិនដាក់ interface ទាំងអស់ចូលគ្នា? 
+- it follow the printciple called interface segregation : បើយើងចង់បានគេ គ្រាន់តែ extends from interface នឹងទៅបានហើយ មិនចាំបាន ប្រើទាំងអស់ វាងាយស្រួលបែងចែក គ្នាអោយដាច់។
+
+3. JpaRepository it is specific and under the spring data jpa 
+
+JpaRepository<T, ID> extends ListCrudRepository<T, ID>, ListPagingAndSortingRepository<T, ID>, QueryByExampleExecutor<T>
+
+យើងធ្វើការ Extend តែមួយមកបានប្រើទាំងអស់
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

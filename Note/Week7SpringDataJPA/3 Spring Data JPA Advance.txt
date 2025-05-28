@@ -1,0 +1,14 @@
+1. Spring data JPA is an advance framword or advance project (it come 1 spring data JDBC)
+2. Spring data JPA make easy by adaping of specification of JPA (Java Persistence API) 
+- spring team they build the spring data JPA by taking concept by hibernet framework (it is most popuplor)
+then the spring team build the spring data JPA by taking the JPA specification and under the line by using 
+Hibernet in side spring data JPA project 
+
+3. in order to work with Spring data jpa we need to add the dependency 
+
+- JPA is the specification that design by the java enterprice specification team 
+We no need to write the query or sql statement 
+
+
+
+ 
