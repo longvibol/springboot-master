@@ -1,0 +1,17 @@
+MySQL Command 
+
+1. login :
+
+>> mysql -u root -p
+use our create passport: root -> admin (password) 
+
+
+2. show database : 
+
+>> show databases;
+
+
+3. Crate Database 
+
+>> create database eazyschool;
+
