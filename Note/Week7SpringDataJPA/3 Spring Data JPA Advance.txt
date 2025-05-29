@@ -9,6 +9,159 @@ Hibernet in side spring data JPA project
 - JPA is the specification that design by the java enterprice specification team 
 We no need to write the query or sql statement 
 
+=================================================================================
+
+Step by Step to migrate from Spring date jdbc to Spring data JPA 
+
+1. ORM : We do the mapping from our Model to Database 
+
+1.1 contact model 
+
+@Data
+@Entity
+@Table(name = "contact_msg")
+public class Contact extends BaseEntity{
+
+	@Id
+//	@GeneratedValue(strategy = GenerationType.AUTO,generator = "native")
+//	@GenericGenerator(name = "native", strategy = "native")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="contact_id")
+    private int contactId;
+
+}
+
+- @Entity ប្រាប់ទៅ hibernet it is our class model 
+- @Table(name = "contact_msg") យើងត្រូវដាក់ឈ្មោះអោយដូចទៅនឹង Database របស់យើង (យើងអាចកែបានក្នុង Database table or we do from our model in spring boot)
++ ត្រូវកំណត់ column ណាជា id 
+
+- @Id ប្រាប់ថាវាជា no duplicate 
+- @GeneratedValue(strategy = GenerationType.IDENTITY) : អោយវា increase auto 
+- @Column(name="contact_id") : Mapping the name from our model to database 
+
+
+1.2 BaseEntity : វាជា parent class ចឹងយើងធ្វើការ Mapping វាដែល 
+
+@MappedSuperclass 
+@Data
+public class BaseEntity {
+
+    private LocalDateTime createdAt;
+    private String createdBy;
+    private LocalDateTime updatedAt;
+    private String updatedBy;
+}
+
+- @MappedSuperclass ប្រាប់ថាវា column យើងដែល​
+
+1.3 holiday.class 
+
+- វាអត់មាន @Id ទេព្រោះវាគ្រាន់តែ Display ទិន្នន័យ តែនៅក្នុង Hibernet ពេលដែលវា ធ្វើការ called វាត្រូវការមាន Id ចឹងយើងត្រូវប្រាប់វា ទោះអត់មាន ក៏ដោយកុំអោយវា error 
+
++ Enum Type : private  Type type;
+
+    public enum Type {
+        FESTIVAL, FEDERAL
+    }
+
+in our database : `type` varchar(20) NOT NULL it is varchar (store the string) 
+
+ចឹងយើងត្រូវប្រាប់ spring ថាវាជា ENUM ពេលដែលវា communicate with data អោយវា Convert from Enum to string 
+
+- @Enumerated(EnumType.STRING) : ដំបូងប្រាប់ថាវាជា Enumerated​ ហើយបញ្ជាក់ Type របស់ Enum វាជា ប្រភេទ String 
+   private  Type type;
+
+
+============================
+
+
+@Data
+@Entity
+@Table(name="holidays")
+public class Holiday extends BaseEntity{
+
+	/* We remove the final keyword becasue we want to change from backend and for RowMapper it also need to change
+    private final String day;
+    private final String reason;
+    private final Type type;
+    
+    */
+	
+	@Id
+    private  String day;
+    private  String reason;
+    
+    @Enumerated(EnumType.STRING)
+    private  Type type;
+
+    public enum Type {
+        FESTIVAL, FEDERAL
+    }
+}
+
+
+=====================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
  

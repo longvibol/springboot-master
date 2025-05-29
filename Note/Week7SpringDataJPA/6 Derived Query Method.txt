@@ -1,0 +1,7 @@
+List<Person> findBylastName(String lastName) 
+
+- By is called Criterial : And and Or keyword and we can use with the keyword : Distinct 
+
+Ex: findDistinctBy
+
+- find (Infront of By) is called introducer : find, read, query, count, or get (the same meeting fetch or query the record) 

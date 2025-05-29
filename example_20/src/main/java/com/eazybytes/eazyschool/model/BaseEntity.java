@@ -4,6 +4,10 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.MappedSuperclass;
+
+
+@MappedSuperclass
 @Data
 public class BaseEntity {
 
