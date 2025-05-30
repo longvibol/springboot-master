@@ -1,0 +1,194 @@
+1. Use Annotation from Spring to create AuditingEntity
+
+In the real system we want to know: who create the data, who deleted, who update 
+
+- @CreateDate, @CreatedBy, @LastModifiedDat, @LastModifiedBy 
+
+They are the key annotations that support JPA auditing 
+
+2. in our POJO class BaseEntity 
+
+in the field : 
+private createdAt;
+private createdBy; 
+
+- We put : @Column(updatable = false) : យើងប្រាប់ទៅ JPA ថាពេលដែលមានគេ Update កុំអោយវា update ព្រោះវាជា Field 
+ដែលរក្សទិន្នន័យអ្នកដែលបញ្ចូល ដំបូងគេ
+
+- The same as : field updateAt and updateBy we need to disable : insertable = false 
+
+*** Importance *** we need to put the @EntityListeners(AuditiongEntityListener.class) 
+
+It mean we telling the JPA please read this Entity as an Entity listener !
+
+- Listener is the concept in the software development where some component keep listening when it is update
+change or something changing 
+
+
+==> watch all entire field in side the Entity where I have mention annotation (@CreateDate, @CreatedBy, @LastModifiedDat, @LastModifiedBy) please tread them as the related what I have mention field 
+
+*** 3. How the spring know it is the current time and who is the login *** 
+
+3.1 Date and Time the spring will look into the time in the server 
+
+3.2 Who is the login : we need to creates the Bean : class AuditAwareImpl and implements AuditorAware<>
+this is the interface so we need to implement the Override getCurrentAuditor()
+
+- Please the storing the current user detail the spring it store in side the class: SecurityContextHolder   
+- And if the current user don't have the spring will provide null for the user 
+
+That why the return type of getCurrentAuditor() is Optional 
+
+
+======================================================================================================
+
+Step by Step implement :
+
+1. in BaseEntity 
+
+@Data
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public class BaseEntity {
+	
+	@CreatedDate
+	@Column(updatable = false)
+    private LocalDateTime createdAt;
+	
+	@CreatedBy
+	@Column(updatable = false)
+    private String createdBy;
+	
+	@LastModifiedDate
+	@Column(insertable = false)
+    private LocalDateTime updatedAt;
+    
+    @LastModifiedBy
+	@Column(insertable = false)
+    private String updatedBy;
+}
+
+
+2. Find the current user login 
+
+By create audit : package and inside create the class : AudiAwareImpl
+
+@Component("audiAwareImpl")
+public class AudiAwareImpl implements AuditorAware<String>{
+
+	@Override
+	public Optional<String> getCurrentAuditor() {
+		return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication().getName());
+		// SecurityContextHolder : this spring class store the user detail holder 
+	}
+
+}
+
+Explain : @Component("audiAwareImpl") : we create bean name : audiAwareImpl
+
+3. in the main Application we need to anable the auditorAwareRef 
+
+@SpringBootApplication
+@EnableJpaRepositories("com.eazybytes.eazyschool.repository")
+@EntityScan("com.eazybytes.eazyschool.model")
+@EnableJpaAuditing(auditorAwareRef = "audiAwareImpl")
+public class EazyschoolApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(EazyschoolApplication.class, args);
+	}
+}
+
+Explain :
+
+@EnableJpaAuditing(auditorAwareRef = "audiAwareImpl") this is what we have add to put the Auditing 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

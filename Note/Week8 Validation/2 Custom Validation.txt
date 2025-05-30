@@ -1,0 +1,57 @@
+1. Create our own validation 
+
+Sample : check the dependency : package jakarta.validation.constraints;
+
+>> Ctrl + Shirt + T : search " jakarta.validation.constraints "
+
+We can check Email for the sample: 
+
+1.1 we need to know how declaration of the contran 
+
+- public @interface Email {} : Email is our name , and we need to declare it in @interface
+==> យើងដាក់វាចឹង In java វានឹងដឹងថា class នឹងវាជា Annotation 
+
+- @Documented : is considered part of the element's public contract (it will carry over our java when compile)
+
+- @Constraint(validatedBy = { }) keep for custom logic that we want to create : small letter with * or something else : { } យើងដាក់ class យើងចូល
+
+-@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE }) : what are the Target that our target can support : យើងអោយ Email annotation យើងអាចដាក់បានលើអីខ្លះ
+
+- @Retention(RUNTIME) ប្រាប់ java ថាវាធ្វើការពេល Runtime only 
+
+- @Repeatable(List.class) : mean this Email annotation can use many times in the field 
+
+Node inside the Annotation @Email there are many method inside that : 
+message(); show message to the user
+
+groups(); group our validation 
+
+payload(); Payloads are typically used to carry on metadata information consumed by a validation client. 
+
+The defaule they are empty :
+
++Class<?>[] groups() default { };
+
++Class<? extends Payload>[] payload() default { };
+
+regexp(): this is the partern that we can add 
+
+flags(); : used in combination with regexp() in order to specify a regularexpression 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

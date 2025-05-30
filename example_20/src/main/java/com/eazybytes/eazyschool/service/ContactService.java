@@ -29,8 +29,6 @@ public class ContactService {
 	public boolean saveMessageDetails(Contact contact) {
 		boolean isSaved = false;
 		contact.setStatus(EazySchoolConstants.OPEN);
-		contact.setCreatedBy(EazySchoolConstants.ANOUNYMOUS);
-		contact.setCreatedAt(LocalDateTime.now());
 		Contact saveContact = contactRepository.save(contact);
 		if (null != saveContact && saveContact.getContactId() > 0) {
 			isSaved = true;
@@ -46,14 +44,13 @@ public class ContactService {
 	}
 
 	// update Method 
-	public boolean updateMsgStatus(int contactId, String updatedBy) {
+	public boolean updateMsgStatus(int contactId) {
 		boolean isUpdated = false;
 		Optional<Contact> contact = contactRepository.findById(contactId);
 		// after we success find the contact By Id we want to update the status
 		contact.ifPresent(contact1 -> {
 			contact1.setStatus(EazySchoolConstants.CLOSE);
-			contact1.setUpdatedBy(updatedBy);
-			contact1.setUpdatedAt(LocalDateTime.now());
+
 		});
 		Contact updateContact = contactRepository.save(contact.get()); // contact.get() because it is optional so we
 																		// want to get only if the contact have

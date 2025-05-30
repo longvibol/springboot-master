@@ -1,0 +1,213 @@
+We want to use this annotation to compare the input the same value or not!
+
+- Password and Confirm Password 
+
+Step by Step to crate it : 
+
+1. Create package : annotation 
+
+@Constraint(validatedBy = FieldsValueMatchValidator.class): this what we control our login 
+
+by create our custom class to compare the input : FieldsValueMatchValidator.class
+
+
+=========================== FieldsValueMatch
+
+@Constraint(validatedBy = FieldsValueMatchValidator.class)
+@Target({ ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+public @interface FieldsValueMatch {
+
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
+
+    String message() default "Fields values don't match!";
+
+    String field();
+
+    String fieldMatch();
+
+    @Target({ ElementType.TYPE })
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface List {
+        FieldsValueMatch[] value();
+    }
+}
+
+- Explain :String field() and String fieldMatch() to store our value in order to keep installation 
+- @Target({ ElementType.TYPE }) មានន័យថាយើងដាក់នៅលើ POJO java class 
+
+
+
+=============================== PasswordValidator
+
+
+@Documented
+@Constraint(validatedBy = PasswordStrengthValidator.class)
+@Target( { ElementType.METHOD, ElementType.FIELD })
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PasswordValidator {
+    String message() default "Please choose a strong password";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
+}
+
+
+--Explain : ElementType.METHOD, ElementType.FIELD  យើងអាចដាក់ annotation យើងបាននៅលើ File and Method 
+- String message() default "Please choose a strong password"; default message to the user 
+
+
+========================= Our validation class logic : 
+
+1. FieldsValueMatchValidator.class
+
+============================
+
+public class PasswordStrengthValidator implements
+        ConstraintValidator<PasswordValidator, String> {
+
+    List<String> weakPasswords;
+
+    @Override
+    public void initialize(PasswordValidator passwordValidator) {
+        weakPasswords = Arrays.asList("12345", "password", "qwerty");
+    }
+
+    @Override
+    public boolean isValid(String passwordField,
+                           ConstraintValidatorContext cxt) {
+        return passwordField != null && (!weakPasswords.contains(passwordField));
+    }
+}
+
+1- we need to implements
+        ConstraintValidator<PasswordValidator, String>
+
+it have two parameter : 
++one is PasswordValidator (our annotation interface)
++ two is our target type : String 
+
+============================
+
+
+
+
+2. PasswordStrengthValidator.class
+
+
+public class FieldsValueMatchValidator
+        implements ConstraintValidator<FieldsValueMatch, Object> {
+
+    private String field;
+    private String fieldMatch;
+
+    @Override
+    public void initialize(FieldsValueMatch constraintAnnotation) {
+        this.field = constraintAnnotation.field();
+        this.fieldMatch = constraintAnnotation.fieldMatch();
+    }
+
+    @Override
+    public boolean isValid(Object value,ConstraintValidatorContext context) {
+        Object fieldValue = new BeanWrapperImpl(value)
+                .getPropertyValue(field);
+        Object fieldMatchValue = new BeanWrapperImpl(value)
+                .getPropertyValue(fieldMatch);
+        if (fieldValue != null) {
+            return fieldValue.equals(fieldMatchValue);
+        } else {
+            return fieldMatchValue == null;
+        }
+    }
+}
+
+-- first we need to implements ConstraintValidator<FieldsValueMatch, Object>
+
+* Note 
+
+in the second parameter we use Object : if we put string or integer in can input only one 
+
+------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
