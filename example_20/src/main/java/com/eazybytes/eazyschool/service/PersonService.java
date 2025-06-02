@@ -19,6 +19,8 @@ public class PersonService {
 
     public boolean createNewPerson(Person person){
         boolean isSaved = false;
+        
+        //we emmbed the role inside the code 
         Roles role = rolesRepository.getByRoleName(EazySchoolConstants.STUDENT_ROLE);
         person.setRoles(role);
         person = personRepository.save(person);

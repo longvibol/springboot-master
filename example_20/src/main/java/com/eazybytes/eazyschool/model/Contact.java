@@ -1,16 +1,13 @@
 package com.eazybytes.eazyschool.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
+
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 
 /*
 @Data annotation is provided by Lombok library which generates getter, setter,
@@ -19,14 +16,12 @@ This makes our code short and clean.
 * */
 @Data
 @Entity
-@Table(name = "contact_msg")
+@Table(name="contact_msg")
 public class Contact extends BaseEntity{
 
-	@Id
-//	@GeneratedValue(strategy = GenerationType.AUTO,generator = "native")
-//	@GenericGenerator(name = "native", strategy = "native")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="contact_id")
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "contact_id")
     private int contactId;
 
     /*

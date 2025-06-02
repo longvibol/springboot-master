@@ -1,0 +1,108 @@
+In JPA also have the relationship 
+
+- One to One : 
+- One to Many : 
+- Many to One : 
+- Many to Many : 
+
+1. config in spring jpa 
+
+One to One relationship : a single record in one table is associated with another table exactly one recorde  
+we call it ass one to one relation. 
+
+Ex. User <-> Email ; user <-> Address; Spouse <-> Spouse ; Country <-> Capital 
+
+Keywork :
+
++ Uniny directional តែមួយទិសដៅ : we want to say parent to the Child (think about person and role ) person can have only one 
+role but if we think from role to person (Many role can assign to many person : Many to One relation) 
+
+យើងគិតពីការគ្រប់គ្រង មានន័យថា ទិន្នន័យទាំងអស់ត្រូវបានចាត់ចែងនៅតែ ផ្នែកខាងដាក់នឹង បើផ្នែកមួយទៀតមានការកែប្រែវា 
+មិនមានអីប៉ះពាល់នោះទេ។​
+
+
++ Bidrection (គិតទាំងទៅទាំំងមក)
+
+
+==========================================================================================================
+
+Advance: One to One : configuration   
+
+1 - First Step config 
+
+@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST, targetEntity = Roles.class) 
+
+Explain: Parent to child 
+
+1. FetchType.EAGER # FetchType.Lazy : we think about it when starting the system it will get the data or no 
+
+in default One to One is explicit:
+
+- By default all ToMany relationship are Lazy ព្រោះបើវា load data មកទាញ ទិន្នន័យម្តងវាស៊ីធំ។
+- អីក៏ដោយ ToOne relationship are Eager. ទិន្នន័យតិចវា Load data មកតែម្តង់
+
+2. cascade = CascadeType.PERSIST : បើ Parent ធ្វើអី កូននឹងវាធ្វើនឹងដូចគ្នា Ex: if we delete the person, 
+the child is also deletd that person id . 
+
+3. targetEntity : ភ្ជាប់ទៅ Entity មួយណា​ ចឹងយើងត្រូវដាក់ឈ្មោះ Class នឹង
+
+4. ចុះយើងធ្វើម្តេចដឹងថាវាជា unibirectional :
+
+POJO Class : Person 
+
+ @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST, targetEntity = Roles.class)
+    @JoinColumn(name = "role_id", referencedColumnName = "roleId",nullable = false)
+
+    private Roles roles;
+
+- name = "role_id" the same name as Database 
+
+បើយើងដាក់ config ចឹងនៅតែនៅក្នុង Person class វាមានន័យថា វាជា Uniary Operatoin 
+
+but if we put both Person and Role class it is biUniary Operation. 
+
+2. Config on JoinColumn
+
+@JoinColumn(name = "role_id", referencedColumnName = "roleId",nullable = false)
+
+- name = "role_id" : Defines the column name for the foreign key in the current table. តើវាភ្ជាប់ទៅ Entity មួយណា
+
+- referencedColumnName = "roleId" : Specifies that role_id refers to the roleId column in the Roles table.
+
+- nullable = false : អត់មានក៏បានដែល
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

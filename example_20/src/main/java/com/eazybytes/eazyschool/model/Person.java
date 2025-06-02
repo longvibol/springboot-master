@@ -1,7 +1,5 @@
 package com.eazybytes.eazyschool.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import com.eazybytes.eazyschool.annotation.FieldsValueMatch;
 import com.eazybytes.eazyschool.annotation.PasswordValidator;
 
@@ -75,3 +73,20 @@ public class Person extends BaseEntity{
     @JoinColumn(name = "address_id", referencedColumnName = "addressId",nullable = true)
     private Address address;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
