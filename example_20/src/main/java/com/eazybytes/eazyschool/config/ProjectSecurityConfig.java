@@ -36,11 +36,8 @@ public class ProjectSecurityConfig {
 	            .defaultSuccessUrl("/dashboard")
 	            .failureUrl("/login?error=true")
 	            .permitAll()
-	        )
-	        
-	        .httpBasic(Customizer.withDefaults());
-	    
-
+	        )	        
+	        .httpBasic(Customizer.withDefaults());	    
 	    return http.build();
 	}	
 	
@@ -49,24 +46,6 @@ public class ProjectSecurityConfig {
 	    return new BCryptPasswordEncoder();
 	}
 	
-	//Create temporary user 
-	@Bean
-	public InMemoryUserDetailsManager userDetailsManager(PasswordEncoder passwordEncoder) {
-	    UserDetails admin = User.builder()
-	            .username("admin")
-	            .password(passwordEncoder.encode("12345"))
-	            .roles("ADMIN")
-	            .build();
-
-	    UserDetails user = User.builder()
-	            .username("user")
-	            .password(passwordEncoder.encode("12345"))
-	            .roles("USER")
-	            .build();
-
-	    return new InMemoryUserDetailsManager(admin, user);
-	}
-
 }
 
 

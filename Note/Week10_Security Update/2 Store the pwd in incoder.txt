@@ -1,0 +1,147 @@
+1. In spring security it have password encoder (no recommend to store pwd)
+
+there are three ways that we can store the pwd 
+
+1. Encoding : process of converting data from one form to another and has nothing to do with cryptography. 
+- it involves no secret and completely reversable 
+- encoding can't be used for securing data.
+Below are the varous publicly avaible algorighim used for encoding : ASCII, BASE64, UNICODE 
+
+2. Encryption : យើងប្រើ Key ដើម្បីធ្វើការដាក់កូដ (no recommend to store pwd)
+
+
+3. Hashing : In hashing, data is converted to the hash value using  some hashing function. 
+We use it for password management. is the meganitize to convert the data hand use hashing function. 
+and it can not reversable! 
+
+
+How they work : 
+
+Hashing : 
+
+- during the register process we generate the hashing pwd and store 
+- during the login process we will generate the hashing algorithm again to compare the pwd hashing password 
+
+when we use pwd hashing it create the value and each generate value are randomly every time. 
+
+-------------------------------------Link 
+
+https://bcrypt-generator.com/
+
+
+Ex:
+- Register : 
+Tx : 1234
+Hash: $2a$12$4ooMcvMteTzAQ6X8nWj7K.5Xw0cYgKhohFViG1CK3kQJg37Phi58W
+
+- login 
+
+Hash : $2a$12$4ooMcvMteTzAQ6X8nWj7K.5Xw0cYgKhohFViG1CK3kQJg37Phi58W
+compare with the plan text : 1234
+
+so if someone know and get the pwd that we store in the database : $2a$12$4ooMcvMteTzAQ6X8nWj7K.5Xw0cYgKhohFViG1CK3kQJg37Phi58W
+
+They still can not know what is the text that user input 
+
+
+--------------------------------------------------------------------------------------
+
+
+PasswordEncoder : encode and matches 
+
+- encode we use when we register for new user :
+
+String encode(CharSequence rawPassword); input paramether have only one 
+
+
+- matches : Method to compare the plan text with the hash value 
+
+matches(CharSequence rawPassword, String encodedPassword);
+
+rawPassword : when user login with the plain text 
+encodedPassword : load from db 
+
+
+==>> we will use :  BCryptPasswordEncoder implements PasswordEncoder
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
