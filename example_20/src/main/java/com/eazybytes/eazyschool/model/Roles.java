@@ -11,7 +11,7 @@ import lombok.Data;
 public class Roles extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int roleId;
 
     private String roleName;

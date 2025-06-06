@@ -23,9 +23,9 @@ public class ProjectSecurityConfig {
 	        		.ignoringRequestMatchers("/saveMsg","/public/**")
 	        		) 
 	        .authorizeHttpRequests(auth -> auth
-	            .requestMatchers("/dashboard").authenticated()
+	            .requestMatchers("/dashboard","/displayProfile","/updateProfile").authenticated()
 	            .requestMatchers("/displayMessages").hasRole("ADMIN")
-	            .requestMatchers("/closeMsg/**").hasRole("ADMIN")
+	            .requestMatchers("/closeMsg/**","/admin/**").hasRole("ADMIN")
 	            .requestMatchers("/", "/home", "/holidays/**", "/contact", "/saveMsg", 
 	                             "/courses", "/about", "/assets/**", "/login", "/logout","/public/**")
 	  

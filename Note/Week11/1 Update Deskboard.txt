@@ -1,0 +1,94 @@
+1.How to put font weason 
+
+Link need to put in <head>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+Put the class in the html file 
+
+<i class="fa-solid fa-user"></i>
+
+2. How to store the object in the session 
+
+We think where we can keep the user in the session : in the DashboardController after they log in it will directly to DashBoardController 
+
+So we want to fetch the person Who is login : we need to get help from Repository 
+
+
+@Autowired
+	PersonRepository personRepository;
+
+by personRepository we want to get who is login by find the email 
+
+- In the Authentication authentication 
+
+we can use authentication to get the person by the email (because it is unit ) if we can buy name sometime 
+the person have the same name 
+
+-> so in order to get the email from the sesson we need who it is the provider that why we need to go to 
+EazySchoolUsernamePwdAuthenticationProvider class to make it send the name 
+
+3. Store the user in the HttpSession httpSession
+
+HttpSession httpSession is the Interface in the serverlet library use this parameter we can store the information inside the Session => then when ever we want to can use this store session in the Dasdboard controller 
+
+ ==> session.setAttribute("loggedInPerson", person); : store the person object in the name "loggedInPerson" attribute 
+
+
+យើងបន្ទប់មកទៀតពេលដែលយើងចង់បាន information we can get it from attribute : loggedInPerson
+
+3.3 how to get the information from the session 
+
+Person person = (Person) session.getAttribute("loggedInPerson"); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
