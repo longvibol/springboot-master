@@ -1,0 +1,136 @@
+Many to Many 
+
+Ex1:
+course and Students 
+
+- view from course 
+Course can have many student enroll 
+
+- view from students 
+student can register and study in many course as they want 
+
+Ex2: Ecommers 
+
+Orders and Products 
+
+- view from Order 
+In Orders we can have many order inside it 
+- view from Products 
+in the Products they can order many time 
+
+=================================================================================================
+
+Person : 
+
+@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "person_courses",
+            joinColumns = {
+                    @JoinColumn(name = "person_id", referencedColumnName = "personId")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "course_id", referencedColumnName = "courseId")})
+    private Set<Courses> courses = new HashSet<>();
+
+Explain: 
+
+- @ManyToMany : we add this on the field we want to specify Many to Many relationship 
+- fetch = FetchType.EAGER : when it create we retrive it 
+- cascade = CascadeType.PERSIST : save to database only 
+- @JoinTable : Joint from Person Table to "person_courses"
+- @JoinColumn(name = "person_id", referencedColumnName = "personId") : name = "person_id" is the new column in the table :"person_courses" ; 
+
+- inverseJoinColumns = {
+                    @JoinColumn(name = "course_id", referencedColumnName = "courseId")}):name = "course_id" what we name the in the new column : person_courses and referencedColumnName = "courseId" is the table: courses. 
+
+- inverseJoinColumns : what is the other Entity to that we want to join the column 
+
+=================================================================================================
+
+In the order Entity Course :
+
+- @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+    private Set<Person> persons = new HashSet<>(); 
+
+==> We use mappedBy = "courses" : mean the Courses as the owning entity. 
+- field name : private Set<Person> persons = new HashSet<>(); យើងអោយ Course វាជា​អ្នករក្សា និងគ្រប់គ្រង ចឹងបានយើងត្រូវដាក់  វាភ្ជាប់ទៅនឹង courses Entity.
+ 
+Note:  
+
+If we don't create Intermidate table we will save many duplicate data inside the Person table and Course table it one person register in three course it mean the course will store person three recode 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
