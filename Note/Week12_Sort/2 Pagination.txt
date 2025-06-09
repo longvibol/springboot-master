@@ -1,0 +1,158 @@
+1. class in the style.css 
+
+table.dataTable > thead .sorting:before,
+table.dataTable > thead .sorting_asc:before,
+table.dataTable > thead .sorting_desc:before,
+table.dataTable > thead .sorting_asc_disabled:before,
+table.dataTable > thead .sorting_desc_disabled:before {
+  right: 1em;
+  content: "↑";
+}
+table.dataTable > thead .sorting:after,
+table.dataTable > thead .sorting_asc:after,
+table.dataTable > thead .sorting_desc:after,
+table.dataTable > thead .sorting_asc_disabled:after,
+table.dataTable > thead .sorting_desc_disabled:after {
+  right: 0.5em;
+  content: "↓";
+}
+
+Where we put the up and down arrow!
+
+2. in the message.html  
+
+<div class="site-section">
+
+    <div class="table-responsive-md">
+        <div class="row mb-4">
+            <div class="col-md-7">
+                <h3 class="heading-21921">Open Contact Messages</h3>
+            </div>
+        </div>
+        <table class="table table-striped dataTable">
+            <thead class="table-dark">
+            <tr>
+                <th class="sorting" scope="col">
+                    <a th:href="@{'/displayMessages/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">Name</a>
+                </th>
+                <th class="sorting" scope="col">
+                    <a th:href="@{'/displayMessages/page/' + ${currentPage} + '?sortField=mobileNum&sortDir=' + ${reverseSortDir}}">Mobile Num</a>
+                </th>
+                <th class="sorting" scope="col">
+                    <a th:href="@{'/displayMessages/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">Email</a>
+                </th>
+                <th class="sorting" scope="col">
+                    <a th:href="@{'/displayMessages/page/' + ${currentPage} + '?sortField=subject&sortDir=' + ${reverseSortDir}}">Subject</a>
+                </th>
+                <th class="sorting" scope="col">
+                    <a th:href="@{'/displayMessages/page/' + ${currentPage} + '?sortField=message&sortDir=' + ${reverseSortDir}}">Message</a>
+                </th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="msg: ${contactMsgs}">
+                <td th:text="${msg.name}"></td>
+                <td th:text="${msg.mobileNum}"></td>
+                <td th:text="${msg.email}"></td>
+                <td th:text="${msg.subject}"></td>
+                <td th:text="${msg.message}"></td>
+                <td><a th:href="@{/closeMsg(id=${msg.contactId})}" class="btn btn-warning">CLOSE</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+Explain : 
+
+<a th:href="@{'/displayMessages/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">Name</a> 
+
+==> when they click on the "Name" it will go to the page : th:href="@{'/displayMessages/page/'
+and it will provide the "${currentPage}"  
+
+==> And if the user click on the arrow dot "'?sortField=name&sortDir=' + ${reverseSortDir}}" it will provide the sort on the name that they click. 
+
+----------
+
+Note in the Thymleaf 
+
+<a th:unless="${currentPage < totalPages}" class="not-allowed" disabled=""> 
+
+th:unless = Not Condition 
+
+
+In the dashboard.html 
+
+We anable the pagenation first :
+
+<a th:href="@{/displayMessages/page/1?sortField=name&sortDir=desc}">
+
+so when they click on the Message Button it will send the current page and sort 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

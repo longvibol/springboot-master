@@ -1,0 +1,80 @@
+Spring Data JPA sorting 
+
+1. Interface : PagingAndSortingRepository 
+
+There are two ways to achieve Sorting in Spring Data JPA 
+- Static Sorting : យើងមិនអាចអោយអ្នកប្រើប្រាស់កែបាន
+- Dynamic Sorting : we can choose the sorting column and direction at runtime to sort the query results. 
+It is flexibility in choosing sort columns and direction with the help of Sort Parameter 
+
+- by defaule the JPA will short by scending direction (smallest to largest)
+ 
+
+---------------------------------------------------------
+
+** Static Sorting **
+
+1. Implement Static sorting 
+
+In the CoursesRepository we need to extend the PagingAndSortingRepository 
+
+@Repository
+public interface CoursesRepository extends JpaRepository<Courses, Integer> {
+	
+	List<Courses> findByOrderByNameDesc();
+	List<Courses> findByOrderByName(); //by default it will short by Ascending (small to big) 
+
+}
+
+---------------------------------------
+
+2. in controller 
+
+@GetMapping("/displayCourses")
+    public ModelAndView displayCourses(Model model) {
+//        List<Courses> courses = coursesRepository.findByOrderByName();
+        List<Courses> courses = coursesRepository.findByOrderByNameDesc();
+        ModelAndView modelAndView = new ModelAndView("courses_secure.html");
+        modelAndView.addObject("courses",courses);
+        modelAndView.addObject("course", new Courses());
+        return modelAndView;
+    }
+
+
+=====================================================
+
+Dynamic Sorting :
+
+List<Courses> courses = coursesRepository.findAll(Sort.by("name").ascending());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
