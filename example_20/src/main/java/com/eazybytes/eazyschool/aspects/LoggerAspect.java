@@ -1,15 +1,15 @@
 package com.eazybytes.eazyschool.aspects;
 
-import lombok.extern.slf4j.Slf4j;
+import java.time.Duration;
+import java.time.Instant;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.stereotype.Component;
 
-import java.time.Duration;
-import java.time.Instant;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Aspect

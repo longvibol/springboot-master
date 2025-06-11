@@ -45,7 +45,7 @@ public class ContactService {
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize,
                 sortDir.equals("asc") ? Sort.by(sortField).ascending()
                         : Sort.by(sortField).descending());
-        Page<Contact> msgPage = contactRepository.findByStatus(
+        Page<Contact> msgPage = contactRepository.findOpenMsgs(
                 EazySchoolConstants.OPEN,pageable);
         return msgPage;
     }
@@ -53,19 +53,12 @@ public class ContactService {
 
 	// update Method 
 	public boolean updateMsgStatus(int contactId) {
-		boolean isUpdated = false;
-		Optional<Contact> contact = contactRepository.findById(contactId);
-		// after we success find the contact By Id we want to update the status
-		contact.ifPresent(contact1 -> {
-			contact1.setStatus(EazySchoolConstants.CLOSE);
-
-		});
-		Contact updateContact = contactRepository.save(contact.get()); // contact.get() because it is optional so we
-																		// want to get only if the contact have
-
-		if (updateContact != null && updateContact.getUpdatedBy() != null) {
+		boolean isUpdated = false;		
+		int rows = contactRepository.updateMsgStatus(EazySchoolConstants.CLOSE, contactId);
+		if(rows > 0) {
 			isUpdated = true;
 		}
+		
 		return isUpdated;
 	}
 

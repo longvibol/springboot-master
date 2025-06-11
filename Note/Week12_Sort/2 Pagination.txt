@@ -81,7 +81,7 @@ Note in the Thymleaf
 th:unless = Not Condition 
 
 
-In the dashboard.html 
+3. In the dashboard.html 
 
 We anable the pagenation first :
 
