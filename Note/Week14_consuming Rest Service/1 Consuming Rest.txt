@@ -1,0 +1,8 @@
+How to write java code to consuming API server from other party 
+
+In spring boot we can do it by three approach 
+
+1. OpenFeign : we define the interface configuration 
+2. RestTemplate
+3. WebClient 
+
