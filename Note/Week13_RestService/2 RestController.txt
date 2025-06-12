@@ -1,0 +1,285 @@
+1. យើងអាចដាក់វាបញ្ចូលគ្នាបាន សម្រាប់ REST API annotation 
+
+@RestController = @Controller + @ResponseBody
+
+Example: 
+
+
+@Slf4j
+@RestController
+@RequestMapping(path="/api/contact")
+public class ContactRestController {
+	
+	@Autowired
+	ContactRepository contactRepository;
+	
+	@GetMapping("/getMessagesByStatus")
+//	@ResponseBody
+	public List<Contact> getMessageByStatus(@RequestParam String status){
+
+		return contactRepository.findByStatus(status);
+	}
+
+==> So we can remove : @Controller in the class and method: @ResponseBody
+
+
+
+- Generate the constructor without parameter @
+
+===============================================================================
+
+@Data : Tell the Lombok create geter and setter 
+@AllArgsConstructor : Create Constructor by our field 
+@NoArgsConstructor : Create Constructor without any input parameter 
+
+
+
+-------------------------------------------------------------------------------
+
+1. in the controller 
+
+Method SAVE:
+
+- ResponseEntity<Response> we user this ResponseEntity because we want to send back to the consumer our header 
+to our consumber 
+
+Example: Update Method 
+
+@PostMapping("/saveMsg")
+public ResponseEntity<Response> saveMsg(@RequestHeader("invocationFrom") String invocationFrom, @Valid @RequestBody Contact constact){
+		log.info(String.format("Header invocationFrom = %s",invocationFrom));
+
+		contactRepository.save(constact);
+		Response response = new Response();
+		response.setStatusCode("200");
+		response.setStatusMsg("Message saved successfully");
+		return ResponseEntity
+			.status(HttpStatus.CREATED)
+			.header("isMsgSaved","true")
+			.body(response);
+}
+
+
+Explain :
+
+ResponseEntity<Response> : we customize our own Response by crate our own Entity Response 
+
+- Class Response 
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Response {
+
+    private String statusCode;
+    private String statusMsg;
+
+}
+
+2. In the controller 
+
+@PostMapping("/saveMsg")
+public ResponseEntity<Response> saveMsg(@RequestHeader("invocationFrom") String invocationFrom, @Valid @RequestBody Contact constact){
+	log.info(String.format("Header invocationFrom = %s",invocationFrom));
+
+	contactRepository.save(constact);
+	Response response = new Response();
+	response.setStatusCode("200");
+	response.setStatusMsg("Message saved successfully");
+	return ResponseEntity
+		.status(HttpStatus.CREATED)
+		.header("isMsgSaved","true")
+		.body(response);
+	}
+
+
+------------------------------
+
+Postman : 
+
+http://localhost:8080/api/contact/saveMsg
+
+Because our Method to update controller we also need the consumer to send us the header that why from 
+the post man we need to send the header 
+
+-header: invocationFrom (key) -> Mobile (Value) 
+
+
+Body: Json 
+
+{
+    "name": "Data Rest2",
+    "mobileNum": "3412654387",
+    "email": "postman@hotmail.com",
+    "subject": "Regarding job request",
+    "message": "Wanted to join Eazy School",
+    "status": "Open"
+}
+
+Ex: Rest with save Msg
+
+@PostMapping("/saveMsg")
+	public ResponseEntity<Response> saveMsg(@RequestHeader("invocationFrom") String invocationFrom, @Valid @RequestBody Contact constact){
+		log.info(String.format("Header invocationFrom = %s",invocationFrom));
+
+		contactRepository.save(constact);
+		Response response = new Response();
+		response.setStatusCode("200");
+		response.setStatusMsg("Message saved successfully");
+		return ResponseEntity
+				.status(HttpStatus.CREATED)
+				.header("isMsgSaved","true")
+				.body(response);
+	}
+
+- In Post Man
+http://localhost:8080/api/contact/saveMsg
+
+Json formate :
+
+{
+    "statusCode": "200",
+    "statusMsg": "Message saved successfully"
+}
+
+3. Delete Rest Method 
+
+	@DeleteMapping("/deleteMsg")
+	public ResponseEntity<Response> deleteMsg(RequestEntity<Contact> requestEntity){
+		// we want to get all the header that consumber send the request
+		HttpHeaders headers = requestEntity.getHeaders();
+		headers.forEach((key,value)->{
+			log.info(String.format(
+					"Header '%s = %s", key, value.stream().collect(Collectors.joining("|"))
+			));
+		});
+		Contact contact = requestEntity.getBody();
+		contactRepository.deleteById(contact.getContactId());
+		Response response = new Response();
+		response.setStatusCode("200");
+		response.setStatusMsg("Message successfully deleted");
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(response);
+	}
+
+
+Explain:
+
+public ResponseEntity<Response> deleteMsg(RequestEntity<Contact> requestEntity) : 
+-we use RequestEntity in order to get the json from consumer. 
+-HttpHeaders headers = requestEntity.getHeaders() we want know what application from consumber senting to our api 
+
+==> Result 
+
+http://localhost:8080/api/contact/deleteMsg
+
+- Header as default 
+- body we use JSON and have contactId to find what we want to delete 
+
+{
+    "contactId" : 2
+}
+
+
+==> result respond 
+
+{
+    "statusCode": "200",
+    "statusMsg": "Message successfully deleted"
+}
+
+This above status we get from our Respond POJO class 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

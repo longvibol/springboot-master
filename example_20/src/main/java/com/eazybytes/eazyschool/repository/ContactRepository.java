@@ -32,8 +32,7 @@ public interface ContactRepository extends JpaRepository<Contact, Integer> {
     Page<Contact> findByStatus(@Param("status") String st, Pageable pageable);
 
 
-	//update JPQL 
-	
+	//update JPQL
 	@Transactional
 	@Modifying
 	@Query("UPDATE Contact c SET c.status = ?1 WHERE c.contactId = ?2")

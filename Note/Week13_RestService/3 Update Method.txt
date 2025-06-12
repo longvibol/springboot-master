@@ -1,0 +1,88 @@
+-@PatchMapping =  we want to update sth in the database 
+
+@PatchMapping("/closeMsg")
+	public ResponseEntity<Response> closeMsg(@RequestBody Contact contactReg){
+		// create object respon
+		Response response = new Response();
+		Optional<Contact> contact = contactRepository.findById(contactReg.getContactId());
+
+		if(contact.isPresent()){
+			contact.get().setStatus(EazySchoolConstants.CLOSE);
+			contactRepository.save(contact.get());
+		}else{
+			//set our response to the consumber
+			response.setStatusCode("400");
+			response.setStatusMsg("Invalid Contact ID received");
+
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+		}
+		response.setStatusCode("200");
+		response.setStatusMsg("Message successfully closed");
+
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(response);
+
+	}
+
+	@PatchMapping("/openMsg")
+	public ResponseEntity<Response> openMsg(@RequestBody Contact contactReg){
+		// create object respon
+		Response response = new Response();
+		Optional<Contact> contact = contactRepository.findById(contactReg.getContactId());
+
+		if(contact.isPresent()){
+			contact.get().setStatus(EazySchoolConstants.OPEN);
+			contactRepository.save(contact.get());
+		}else{
+			//set our response to the consumber
+			response.setStatusCode("400");
+			response.setStatusMsg("Invalid Contact ID received");
+
+			return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+		}
+		response.setStatusCode("200");
+		response.setStatusMsg("Message successfully closed");
+
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(response);
+
+	}
+
+
+- PATCH : http://localhost:8080/api/contact/closeMsg
+
+Body: JSON
+
+{
+    "contactId" : 1
+}
+
+
+==> 
+
+{
+    "statusCode": "400",
+    "statusMsg": "Invalid Contact ID received"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
