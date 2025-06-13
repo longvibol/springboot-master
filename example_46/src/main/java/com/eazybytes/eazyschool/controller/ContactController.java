@@ -27,6 +27,7 @@ public class ContactController {
     @Autowired
     WebClient webClient;
 
+    // OpenClient
     @GetMapping("/getMessages")
     public List<Contact> getMessages(@RequestParam("status") String status) {
         return contactProxy.getMessagesByStatus(status);
@@ -44,6 +45,8 @@ public class ContactController {
         return responseEntity;
     }
     
+    
+    // webClient
     @PostMapping("/saveMessage")
     public Mono<Response> saveMessage(@RequestBody Contact contact){
         String uri = "http://localhost:8080/api/contact/saveMsg";
