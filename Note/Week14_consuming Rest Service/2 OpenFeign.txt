@@ -1,0 +1,183 @@
+1. OpenFeign
+
+1.1 : In main SpringBootApplication 
+
+@EnableFeignClients(basePackages = "com.eazybytes.eazyschool.proxy") : We need to add this annotation when the 
+application start it will scan for the spring 
+
+------------------------------------------------------------------------------
+
+@SpringBootApplication
+@EnableFeignClients(basePackages = "com.eazybytes.eazyschool.proxy")
+public class EazyschoolApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(EazyschoolApplication.class, args);
+	}
+
+}
+
+1.2 : Create ContactProxy interface to call the service API provider 
+
+@FeignClient(name = "contact", url = "http://localhost:8080/api/contact",
+    configuration = ProjectConfiguration.class)
+public interface ContactProxy {
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getMessagesByStatus")
+    @Headers(value = "Content-Type: application/json")
+    public List<Contact> getMessagesByStatus(@RequestParam("status") String status);
+
+}
+
+Explain : 
+
+- name = "contact" : Bean name for the FeignClient 
+- url = "http://localhost:8080/api/contact" : UPL from service API provider 
+- configuration = ProjectConfiguration.class : we we put our username and passport 
+- interface ContactProxy : we create interface to handle our request 
+
++ @RequestMapping(method = RequestMethod.GET, value = "/getMessagesByStatus") : Request mapping to the 
+API that they provide to use URL 
++ @Headers(value = "Content-Type: application/json") : There header they senting 
++  public List<Contact> getMessagesByStatus(@RequestParam("status") String status) : our method in the client to handle the request API 
+
+The parameter need to be the same singture as the API provider service 
+
+
+1.3 : Dependancy 
+
+<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
+
+In the dependencyManagement: 
+
+<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+
+1.4 : ProjectConfiguration : our configuration class 
+
+@Configuration
+public class ProjectConfiguration {
+
+    @Bean
+    public BasicAuthRequestInterceptor basicAuthRequestInterceptor() {
+        return new BasicAuthRequestInterceptor("admin@.com", "admin");
+    }
+
+===============================
+
+Postman : 
+
+GET: http://localhost:8081/getMessages?status=close
+
+- parameter : Key: status : Value: Open 
+- Basic Auth : our user name and password get from API provider 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -13,7 +13,7 @@ public class ProjectConfiguration {
 
     @Bean
     public BasicAuthRequestInterceptor basicAuthRequestInterceptor() {
-        return new BasicAuthRequestInterceptor("admin@eazyschool.com", "admin");
+        return new BasicAuthRequestInterceptor("admin@.com", "admin");
     }
 
     @Bean
@@ -21,14 +21,14 @@ public class ProjectConfiguration {
         RestTemplateBuilder restTemplateBuilder =
                 new RestTemplateBuilder();
         return restTemplateBuilder.basicAuthentication
-                ("admin@eazyschool.com", "admin").build();
+                ("admin@.com", "admin").build();
     }
 
     @Bean
     public WebClient webClient() {
         return WebClient.builder()
                 .filter(ExchangeFilterFunctions.
-                        basicAuthentication("admin@eazyschool.com", "admin"))
+                        basicAuthentication("admin@.com", "admin"))
                 .build();
     }
 }

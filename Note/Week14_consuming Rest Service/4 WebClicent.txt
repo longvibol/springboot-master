@@ -1,0 +1,156 @@
+1. Create Bean in the ProjectConfiguration 
+
+@Bean
+    public WebClient webClient() {
+        return WebClient.builder()
+                .filter(ExchangeFilterFunctions.
+                        basicAuthentication("admin@.com", "admin"))
+                .build();
+    }
+
+==> .build() will crate the object for the WebClient buy our username and password 
+
+
+2. Controller 
+
+After we crate the bean of the Webclient we can use autowire to create our method 
+
+--------------------------------
+ @Autowired
+    WebClient webClient;
+
+
+@PostMapping("/saveMessage")
+    public Mono<Response> saveMessage(@RequestBody Contact contact){
+        String uri = "http://localhost:8080/api/contact/saveMsg";
+        return webClient.post().uri(uri)
+                .header("invocationFrom","WebClient")
+                .body(Mono.just(contact),Contact.class)
+                .retrieve()
+                .bodyToMono(Response.class);
+    }
+
+
+------------------------------------------------------------------------------------------------
+Explain : 
+
+
+- webClient.post() : Our method that we envoke to he API provider 
+- .uri(uri) : our end uri 
+- .header("invocationFrom","WebClient") : our header we want to sent to the API provider to noted this is our header from WebClient 
+- body() : we need two parameter 
+
+1. what is our request body : Mono.just(contact) 
+- Mono can store only the singer element (because we want to send only one object that why we use Mono 
+
+2. what is the data type of the request body 
+- Contact.class
+
+-  .retrieve() : is the method that we want to invoke or consume the web service base on our header, body 
+and model that we provide (it similar to the exchange 
+
+
+-------------------------------------------------------------------------------------
+
+
+POST : http://localhost:8081/saveMessage
+
+------------------------------------------------
+
+{
+    "name": "Testing 2",
+    "mobileNum": "0906665551",
+    "email": "postman@hotmail.com",
+    "subject": "Regarding job request",
+    "message": "Wanted to join Eazy School",
+    "status": "Open"
+}
+
+-------------------------------------------------
+
+{
+    "statusCode": "200",
+    "statusMsg": "Message saved successfully"
+}
+
+Log
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+How to find dependency in the spring boot project ? 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

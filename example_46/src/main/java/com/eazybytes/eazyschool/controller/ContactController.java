@@ -32,6 +32,7 @@ public class ContactController {
         return contactProxy.getMessagesByStatus(status);
     }
 
+    // Consume with RestTemplate     
     @PostMapping("/saveMsg")
     public ResponseEntity<Response> saveMsg(@RequestBody Contact contact){
         String uri = "http://localhost:8080/api/contact/saveMsg";
@@ -42,7 +43,7 @@ public class ContactController {
                 httpEntity,Response.class);
         return responseEntity;
     }
-
+    
     @PostMapping("/saveMessage")
     public Mono<Response> saveMessage(@RequestBody Contact contact){
         String uri = "http://localhost:8080/api/contact/saveMsg";
@@ -52,4 +53,5 @@ public class ContactController {
                 .retrieve()
                 .bodyToMono(Response.class);
     }
+    
 }
