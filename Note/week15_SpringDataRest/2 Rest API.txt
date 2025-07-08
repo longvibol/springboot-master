@@ -1,0 +1,105 @@
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-rest</artifactId>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework.data</groupId>
+	<artifactId>spring-data-rest-hal-explorer</artifactId>
+</dependency>
+
+------------------------------------------------------------------
+
+Add Dependency Rest and Hal Explore : http://localhost:8080/profile
+
+------------------------------------------------------------------
+
+We running then it see the error message : 
+
+he bean 'profileController', defined in class path resource [org/springframework/data/rest/webmvc/RestControllerConfiguration.class]
+
+It mean we have our the same name bean in in our Controller ==> so we need to rename the bean name :
+
+--> in the controller : 
+
+==================================================================
+
+Type meaning : IDEMPOTENT : How many time you invoke operation the data will not get affected 
+
+EX1: 
+
+id
+:
+"create-holidays"
+name
+:
+"holidays"
+type
+:
+"UNSAFE"
+descriptor
+:
+[]
+rt
+:
+"#holiday-representation"
+
+Meaning : 
+
+"create-holidays"
+-Type: UNSAFE : when we try to create Holiday it going to change the data in the database 
+
+EX2: id
+"get-holidays"
+
+type: "SAFE" : It is get method so when every we fetch the data from the database it will not have effect any thing to the database 
+
+EX3: 
+id: "delete-holiday"
+
+type: "IDEMPOTENT" : Delete Method 
+
+=> When anybody said it is Idempotent operation related to the database mean when ever we invoke the method 
+it will operate only one time : How many time we invoke this method Delete it will delete only one time. 
+
+Opposite for the Create Method it call Nonidempotent : Mean it will change the database data 
+
+UNSAFE = Nonidempotent
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

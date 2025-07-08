@@ -20,15 +20,14 @@ public class ProjectSecurityConfig {
 	    	// Ignore CSRF for this end point
 	        .csrf(csrf -> 
 	        		csrf
-	        		.ignoringRequestMatchers("/saveMsg","/public/**","/api/**")
+	        		.ignoringRequestMatchers("/saveMsg","/public/**","/api/**","/data-api/**")
 	        		) 
 	        .authorizeHttpRequests(auth -> auth
-	            .requestMatchers("/dashboard","/displayProfile","/updateProfile","/api/**").authenticated()
+	            .requestMatchers("/dashboard","/displayProfile","/updateProfile","/api/**","/data-api/**").authenticated()
 	            .requestMatchers("/closeMsg/**","/admin/**","/displayMessages/**").hasRole("ADMIN")
 	            .requestMatchers("/student/**").hasRole("STUDENT")
 	            .requestMatchers("/", "/home", "/holidays/**", "/contact", "/saveMsg", 
-	                             "/courses", "/about", "/assets/**", "/login", "/logout","/public/**")
-	  
+	                             "/courses", "/about", "/assets/**", "/login", "/logout","/public/**")	  
 	            .permitAll()
 	        )
 	        .formLogin(login -> login

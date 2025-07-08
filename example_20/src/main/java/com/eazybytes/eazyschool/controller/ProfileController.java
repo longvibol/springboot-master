@@ -1,11 +1,5 @@
 package com.eazybytes.eazyschool.controller;
 
-import com.eazybytes.eazyschool.model.Address;
-import com.eazybytes.eazyschool.model.Person;
-import com.eazybytes.eazyschool.model.Profile;
-import com.eazybytes.eazyschool.repository.PersonRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -14,15 +8,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.eazybytes.eazyschool.model.Address;
+import com.eazybytes.eazyschool.model.Person;
+import com.eazybytes.eazyschool.model.Profile;
+import com.eazybytes.eazyschool.repository.PersonRepository;
+
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@RequiredArgsConstructor
 @Slf4j
-@Controller
+@Controller("profileControllerBean")
 public class ProfileController {
 
-    @Autowired
-    PersonRepository personRepository;
+    
+    private final PersonRepository personRepository;
 
     @RequestMapping("/displayProfile")
     public ModelAndView displayMessages(Model model, HttpSession session) {
