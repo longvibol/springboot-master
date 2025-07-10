@@ -1,0 +1,83 @@
+Level Logging Level : 
+
+1. Individual package logging 
+ 
+- logging.level.root=INFO : show the log from the root
+- logging.level.com.eazybytes.eazyschool.aspects = ERROR : our custom package level but we want to show only when it Error 
+- logging.level.com.eazybytes.eazyschool.controller = TRACE : Want to show all the level of logging inside the package : controller
+
+Note :  
+
+In case we want to logging all the sub level we can use * 
+
+Ex: 
+
+logging.level.com.eazybytes.eazyschool.* = ERROR
+
+
+--------------------------------------------------------
+
+
+2. Set Up Group Level logging 
+
+# Initialize log group eazyschool_error 
+logging.group.eazyschool_error=com.eazybytes.eazyschool.aspects, com.eazybytes.eazyschool.controller
+# Set log level to log group eazyschool_error 
+logging.level.eazyschool_error=ERROR
+
+
+********** 
+
+3. Put the color in the logging
+
+spring.output.ansi.enabled=ALWAYS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,59 @@
+ពេលដែលយើងយក App យើងទៅធ្វើការដាក់ in production if we don't have logging how we can solve the issue 
+
+- When we are in development we can see from the IDE.
+
+There are logging as below:
+
+- Fatal (logback doesn't have)
+- Error 
+- Warn
+- Info
+- Debug : check what error 
+- Trace : in detail 
+
+Logback is the routing include in Spring Boot.
+
+By default from Spring Boot it will log : Error, Warning and Info 
+
+Example 
+
+In the application.properties 
+
+debug=true
+
+
+when we anable the debug=true it will log the : Info, Warning, and debug 
+
+trace : Info, Warning, and debug 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
