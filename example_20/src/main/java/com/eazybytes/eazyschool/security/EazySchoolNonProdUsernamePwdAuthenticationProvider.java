@@ -20,8 +20,8 @@ import com.eazybytes.eazyschool.model.Roles;
 import com.eazybytes.eazyschool.repository.PersonRepository;
 
 @Component
-@Profile("prod")
-public class EazySchoolUsernamePwdAuthenticationProvider implements AuthenticationProvider{
+@Profile("!prod")
+public class EazySchoolNonProdUsernamePwdAuthenticationProvider implements AuthenticationProvider{
 	
 	@Autowired
 	private PersonRepository personRepository;
@@ -37,7 +37,8 @@ public class EazySchoolUsernamePwdAuthenticationProvider implements Authenticati
 		// fetching person authentication from database 		
 		Person person= personRepository.readByEmail(email);
 		
-		if(null!= person && person.getPersonId()>0 && passwordEncoder.matches(pwd, person.getPwd())) {
+		// we remove the condition that need to get the password login 
+		if(null!= person && person.getPersonId()>0 ) {
 			return new UsernamePasswordAuthenticationToken(email, null, getGrantedAuthorities(person.getRoles()));
 		}else {
 			throw new BadCredentialsException("Invalid credentials!");
@@ -51,8 +52,7 @@ public class EazySchoolUsernamePwdAuthenticationProvider implements Authenticati
 		return grantedAuthorities;
 	}
 
-	
-	//this one is wokring first 
+
 	@Override
 	public boolean supports(Class<?> authentication) {
 		 return authentication.equals(UsernamePasswordAuthenticationToken.class);

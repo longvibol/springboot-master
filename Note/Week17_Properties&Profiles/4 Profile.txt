@@ -1,5 +1,49 @@
+We can group our properties with the profile 
+
+- Dev
+- uat
+- prod 
+
++ Dev (Development) is where developers write and test new code. 
+
++ UAT (User Acceptance Testing) is a stage where end-users test the application to ensure it meets their needs.
+
++ Prod (Production) is the live environment where the application is available to the general public. 
+
+-----------------------------------------------------
+
+
+1. Create three different properties 
+
+Prod: 
+
+spring.config.activate.on-profile=prod
+
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.format_sql=false
+
+logging.level.root=ERROR
+logging.level.com.eazybytes.eazyschool.aspects = ERROR
+eazyschool.contact.pageSize=7
+
+
+Uat:
+
+
+spring.config.activate.on-profile=uat
+
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=false
+
+logging.level.root=WARN
+logging.level.com.eazybytes.eazyschool.aspects = WARN
+eazyschool.contact.pageSize=20
+
+
+Dev: this is the default 
+
 spring.config.import=application_prod.properties,application_uat.properties
-spring.profiles.active=!prod
+spring.profiles.active=dev (what we need to anable to select dev, uat or prod)
 
 #spring.thymeleaf.cache=false
 #spring.security.user.name=user
@@ -55,6 +99,22 @@ eazyschool.branches[0]=NewYork
 eazyschool.branches[1]=Delhi
 eazyschool.branches[2]=Paris
 eazyschool.branches[3]=Singapore
+
+
+==============================================
+
+Note we can check in the uat or prod: 
+
+when we create the propertis that dev have it will override the properties 
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,0 +1,70 @@
+1. We create properties in order to easy reduce code when we want to change something 
+Example:
+
+We can set the properties on the page size if we want to view 5 page or 10 page 
+
+So we change only inside the properties. 
+
+======================
+
+Gold we want to connect the value from the Properties to the java code 
+
+1. In the property we create 2 variable 
+
+eazyschool.pageSize=10
+eazyschool.contact.successMsg=Your message is submitted successfully.
+
+We want Java code to hold these two value! 
+
+
+2. Example in the DashboardController
+
+We create field to bind the value from property to the DashboardController
+
+    @Value("${eazyschool.pageSize}")
+    private int defaultPageSize;
+
+    @Value("${eazyschool.contact.successMsg}")
+
+(import org.springframework.beans.factory.annotation.Value;)
+
+Explain: @Value is the bind annotation to the properties 
+
+in the logging message : 
+
+
+	log.error("defaultPageSize value with @Value annotation is : "+defaultPageSize);
+        log.error("successMsg value with @Value annotation is : "+message);
+
+
+How to test it: 
+
+1. put the Break point these two line 
+2. Run as debug mode 
+3. try to log in 
+
+==> then it will stop at this break point so we can see the message in the consoled 
+
+2025-07-11 11:14:34,990 ERROR [http-nio-8080-exec-9] c.e.e.c.DashboardController: defaultPageSize value with @Value annotation is : 10
+2025-07-11 11:14:36,396 ERROR [http-nio-8080-exec-9] c.e.e.c.DashboardController: successMsg value with @Value annotation is : Your message is submitted successfully.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
