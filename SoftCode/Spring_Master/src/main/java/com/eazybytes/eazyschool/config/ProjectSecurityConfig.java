@@ -20,11 +20,11 @@ public class ProjectSecurityConfig {
 	    	// Ignore CSRF for this end point
 	        .csrf(csrf -> 
 	        		csrf
-	        		.ignoringRequestMatchers("/saveMsg","/public/**","/api/**","/data-api/**")
+	        		.ignoringRequestMatchers("/saveMsg","/public/**","/api/**","/data-api/**","/eazyschool/actuator**")
 	        		) 
 	        .authorizeHttpRequests(auth -> auth
 	            .requestMatchers("/dashboard","/displayProfile","/updateProfile","/api/**","/data-api/**").authenticated()
-	            .requestMatchers("/closeMsg/**","/admin/**","/displayMessages/**").hasRole("ADMIN")
+	            .requestMatchers("/closeMsg/**","/admin/**","/displayMessages/**","/eazyschool/actuator/**").hasRole("ADMIN")
 	            .requestMatchers("/student/**").hasRole("STUDENT")
 	            .requestMatchers("/", "/home", "/holidays/**", "/contact", "/saveMsg", 
 	                             "/courses", "/about", "/assets/**", "/login", "/logout","/public/**")	  
