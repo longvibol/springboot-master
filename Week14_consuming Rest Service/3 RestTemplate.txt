@@ -1,0 +1,212 @@
+RestTemplate
+
+1. ProjectConfiguration 
+
+Create Bean for the RestTemplate 
+
+@Bean
+    public RestTemplate restTemplate() {
+        RestTemplateBuilder restTemplateBuilder =
+                new RestTemplateBuilder();
+        return restTemplateBuilder.basicAuthentication
+                ("admin@.com", "admin").build();
+    }
+
+Explain :
+
+restTemplateBuilder.basicAuthentication
+                ("admin@.com", "admin").build(); : 
+
+==> .build() it will return the object what we customzie 
+
+2. contactController 
+
+// Consume with RestTemplate     
+    @PostMapping("/saveMsg")
+    public ResponseEntity<Response> saveMsg(@RequestBody Contact contact){
+        String uri = "http://localhost:8080/api/contact/saveMsg";
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("invocationFrom","RestTemplate");
+        HttpEntity<Contact> httpEntity = new HttpEntity<>(contact, headers);
+        ResponseEntity<Response> responseEntity = restTemplate.exchange(uri, HttpMethod.POST,
+                httpEntity,Response.class);
+        return responseEntity;
+    }
+
+POJO Class: 
+
+@Data
+public class Contact{
+
+    private int contactId;
+    private String name;
+    private String mobileNum;
+    private String email;
+    private String subject;
+    private String message;
+    private String status;
+
+}
+
+
+-----------------------------
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Response {
+
+    private String statusCode;
+    private String statusMsg;
+}
+
+
+4. dependency 
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+==================================================================
+
+Postman 
+
+POST:  http://localhost:8081/saveMsg
+
+Boday: 
+
+{
+    "name": "Testing 1",
+    "mobileNum": "0906665551",
+    "email": "postman@hotmail.com",
+    "subject": "Regarding job request",
+    "message": "Wanted to join Eazy School",
+    "status": "Open"
+}
+
+
+==> Responded 
+
+- Headers: 
+isMsgSaved : true 
+
+- Body 
+
+{
+    "statusCode": "200",
+    "statusMsg": "Message saved successfully"
+}
+
+
+If we check in the console we will see  
+
+ headers.add("invocationFrom","RestTemplate");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

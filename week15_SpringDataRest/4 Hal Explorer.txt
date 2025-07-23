@@ -1,0 +1,68 @@
+1. configure base page in the application.property :
+
+spring.data.rest.basePath=/data-api (to anable the URL /data-api to access Hal Explore 
+
+2. Configer ProjectSecurityConfig.java 
+
+.requestMatchers("/data-api/**").permitAll()
+
+
+3. Access the Hall Expolore 
+
+http://localhost:8080/data-api/profile
+
+
+4. Dependency 
+
+<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-rest-hal-explorer</artifactId>
+		</dependency>
+
+
+5. Create Access security 
+
++ignor CSRS  :
+
+.csrf(csrf -> 
+	        		csrf
+	        		.ignoringRequestMatchers("/data-api/**").authenticated()
+
++Add Authentication
+
+.requestMatchers("/data-api/**").authenticated()
+
+
+----------------------------------------------------
+
+Noted To rename the rest and no export Api to outsid
+
+@RepositoryRestResource(path = "courses") // remain rest api 
+//@RepositoryRestResource(exported = false) // disable export rest api to outside
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,196 @@
+H2 Database : 	
+
+	<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+-----------------------------------------
+
+Ex1: <scope>runtime</scope> មានន័យថាពេលដែលវា ដំណើរការបាន H2 Database នឹងវាមានតំណើរការដែល វាអត់ធ្វើការទេ ពេល Comple code. 
+
+Add the application.properties 
+
+
+# open connection to h2database 
+spring.datasource.url=jdbc:h2:mem:testdb​ 
+# driver to h2 
+spring.datasource.driverClassName=org.h2.Driver 
+# username
+spring.datasource.username=sa  
+# password
+spring.datasource.password= 
+# helps Hibernate translate queries correctly.
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect   
+# expose to the endpoint /h2-console
+spring.h2.console.enabled=true
+#Autoupdate the schema
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+
+===================================
+
+1: In application.properties 
+
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+
+2. in the configuration security 
+
+.csrf(csrf -> csrf
+	.ignoringRequestMatchers(PathRequest.toH2Console())) 
+
+.authorizeHttpRequests(auth -> auth
+	.requestMatchers("/h2-console/**").permitAll()
+
+.headers().frameOptions().disable();
+
+There are three place we add the h2 in the permission: csrf disable, requestMatchers : path, in the header fram disable. 
+
+
+----------------------------------------------
+
+@Bean
+	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+	    http
+	    	// Ignore CSRF for this end point
+	        .csrf(csrf -> 
+	        		csrf
+	        		.ignoringRequestMatchers("/saveMsg")
+	        		.ignoringRequestMatchers(PathRequest.toH2Console())) 
+	        .authorizeHttpRequests(auth -> auth
+	            .requestMatchers("/dashboard").authenticated()
+	            .requestMatchers(PathRequest.toH2Console()).permitAll()
+	            .requestMatchers("/", "/home", "/holidays/**", "/contact", "/saveMsg", 
+	                             "/courses", "/about", "/assets/**", "/login", "/logout","/h2-console/**")
+	  
+	            .permitAll()
+	        )
+	        .formLogin(login -> login
+	            .loginPage("/login")
+	            .defaultSuccessUrl("/dashboard")
+	            .failureUrl("/login?error=true")
+	            .permitAll()
+	        )
+	        
+	        .httpBasic(Customizer.withDefaults())
+	    .headers().frameOptions().disable();
+
+	    return http.build();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	  
+	            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

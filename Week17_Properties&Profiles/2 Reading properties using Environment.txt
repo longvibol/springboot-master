@@ -1,0 +1,18 @@
+Gold: Want to access the vale from the properties 
+
+1. Add Environment
+
+    @Autowired
+    Environment environment;
+
+(import org.springframework.core.env.Environment;)
+
+2. in the log 
+
+log.error("defaultPageSize value with Environment is : "+environment.getProperty("eazyschool.pageSize"));
+        log.error("successMsg value with Environment is : "+environment.getProperty("eazyschool.contact.successMsg"));
+        log.error("Java Home environment variable using Environment is : "+environment.getProperty("JAVA_HOME"));
+
+
+3. the same testing as we setup the Filed with @Value annotation 
+

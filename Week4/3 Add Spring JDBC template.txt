@@ -1,0 +1,22 @@
+1. Create class for JDBC : Create the bean of the data source in order to provide the connection detail to the spring frame work. 
+
+2. Use JDBC temple in order to connection from Spring boot to data source 
+
+3. We can create our query by using the jdbcTemplate 
+
+Ex: by using the jdbcTemplate.queryForObject we use use for 
+
+- "select count(*) from person", Integer.class
+
+- bind variable : "select count(*) from person where first_name = ?", Integer.class, "Joe"
+Explain : ? is for bind with the variable Joe 
+
+- query looks for a string column based on a condition: 
+Ex "select last_name from person where id = ? ", String.class, 1212L
+
+------------------------------------------------------------------------------------------------
+Step to implement JDBC template :
+
+In the connection to the database in the end it will convert to POJO class inside the Java 
+
+

@@ -1,0 +1,149 @@
+- We get RowMapper interface to help get mapping from DB to our POJO class Contact 
+- RowMapper 
+
+
+Step by Step 
+
+1. Create HTML to view the message 
+
+<div class="site-section">
+
+    <div class="table-responsive-md">
+        <div class="row mb-4">
+            <div class="col-md-7">
+                <h3 class="heading-21921">Open Contact Messages</h3>
+            </div>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Mobile Num</th>
+                <th scope="col">Email</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Message</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="msg: ${contactMsgs}">
+                <td th:text="${msg.name}"></td>
+                <td th:text="${msg.mobileNum}"></td>
+                <td th:text="${msg.email}"></td>
+                <td th:text="${msg.subject}"></td>
+                <td th:text="${msg.message}"></td>
+                <td><a th:href="@{/closeMsg(id=${msg.contactId})}" class="btn btn-style btn-style-3">CLOSE</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+------------------------------------------------------------------
+
+Explain : 
+
+- <tr th:each="msg: ${contactMsgs}"> we want each in the msg show in the table 
+- contactMsgs : is the variable we can from 
+
+ ModelAndView modelAndView = new ModelAndView("messages.html"); it is in the controller 
+
+
+2. Controller : we want by clicking the button message in the dashboard it will open the table of status open :
+
+@RequestMapping("/displayMessages")
+	    public ModelAndView displayMessages(Model model) {
+	        List<Contact> contactMsgs = contactService.findMsgsWithOpenStatus();
+	        ModelAndView modelAndView = new ModelAndView("messages.html");
+	        modelAndView.addObject("contactMsgs",contactMsgs);
+	        return modelAndView;
+	    }
+
+ 
+	    @GetMapping("/closeMsg")
+	    public String closeMsg(@RequestParam int id, Authentication authentication) {
+	        contactService.updateMsgStatus(id,authentication.getName());
+	        return "redirect:/displayMessages";
+	    }
+
+Explain :
+
+- "/displayMessages" it return the message.html to viewer 
+
+- "/closeMsg" : it will handle for the table row that they want to close by id 
+
+
+3. Repository : findMsgsWithStatus and 
+
+    public List<Contact> findMsgsWithStatus(String status) {
+        String sql = "SELECT * FROM CONTACT_MSG WHERE STATUS = ?";
+        return jdbcTemplate.query(sql,new PreparedStatementSetter() {
+            public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                preparedStatement.setString(1, status);
+            }
+        },new ContactRowMapper());
+    }
+
+We use this method to query the Status that open : this method ==>
+jdbcTemplate.query (sql statement, Object, RowMapper) 
+
+-sql = "SELECT * FROM CONTACT_MSG WHERE STATUS = ?"
+- Object : what we want : it need the return new Object 
+- RowMapper : what we want to do mapping : so we will crate another class for RowMaper 
+
+public class ContactRowMapper implements RowMapper<Contact> {
+
+    @Override
+    public Contact mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Contact contact = new Contact();
+        contact.setContactId(rs.getInt("CONTACT_ID"));
+        contact.setName(rs.getString("NAME"));
+        contact.setMobileNum(rs.getString("MOBILE_NUM"));
+        contact.setEmail(rs.getString("EMAIL"));
+        contact.setSubject(rs.getString("SUBJECT"));
+        contact.setMessage(rs.getString("MESSAGE"));
+        contact.setStatus(rs.getString("STATUS"));
+        contact.setCreatedAt(rs.getTimestamp("CREATED_AT").toLocalDateTime());
+        contact.setCreatedBy(rs.getString("CREATED_BY"));
+
+        if(null!=rs.getTimestamp("UPDATED_AT")){
+            contact.setUpdatedAt(rs.getTimestamp("UPDATED_AT").toLocalDateTime());
+        }
+        contact.setUpdatedBy(rs.getString("UPDATED_BY"));
+        return contact;
+    }
+}
+
+Explain : 
+- Contact mapRow(ResultSet rs, int rowNum)
+-  contact.setContactId(rs.getInt("CONTACT_ID")); it need to map with our schema that we create in the 
+
+schema.sql ==> example : `contact_id` int AUTO_INCREMENT  PRIMARY KEY,
+
+We need to write from big letter to small letter in the mapping of result set
+
+
+---------------------------------------------------------------------------
+
+4. in the ProjectSecurityConfig : we want this operation only can working with Admin Role 
+
+     .requestMatchers("/displayMessages").hasRole("ADMIN")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

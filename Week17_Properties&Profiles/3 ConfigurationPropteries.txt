@@ -1,0 +1,128 @@
+We want to setup many properties 
+
+1. in the properties 
+
+eazyschool.pageSize=10
+
+#eazyschool.contact.pageSize=5
+eazyschool.contact.successMsg=Your message is submitted successfully.
+
+eazyschool.branches[0]=NewYork
+eazyschool.branches[1]=Delhi
+eazyschool.branches[2]=Paris
+eazyschool.branches[3]=Singapore
+
+2. Create our configuration Properties by create the class then Inject 
+
+package com.eazybytes.eazyschool.config;
+
+
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
+
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import java.util.List;
+import java.util.Map;
+
+@Component("eazySchoolProps")
+@Data
+@ConfigurationProperties(prefix = "eazyschool")
+@Validated
+public class EazySchoolProps {
+
+    @Min(value=5, message="must be between 5 and 25")
+    @Max(value=25, message="must be between 5 and 25")
+    private int pageSize;
+    private Map<String, String> contact;
+    private List<String> branches;
+
+}
+
+
+Explain: 
+@Component("eazySchoolProps") : bean name 
+@Data : Lombok to create getter and setter 
+@ConfigurationProperties(prefix = "eazyschool") : setup the the same our prefix in the properties (eazyschool.pageSize=10) ==> prefix is eazyschool
+
+@Validated : to ask spring to validate from the properties ( @Min(value=5, message="must be between 5 and 25")
+) 
+
+
+3. Inject to our service : ContactService
+
+        @Autowired
+	private EazySchoolProps eazySchoolProps;
+
+
+public Page<Contact> findMsgsWithOpenStatus(int pageNum,String sortField, String sortDir){
+        int pageSize = eazySchoolProps.getPageSize();
+		if(null!=eazySchoolProps.getContact() && null!=eazySchoolProps.getContact().get("pageSize")){
+			pageSize = Integer.parseInt(eazySchoolProps.getContact().get("pageSize").trim());
+		}
+        Pageable pageable = PageRequest.of(pageNum - 1, pageSize,
+                sortDir.equals("asc") ? Sort.by(sortField).ascending()
+                        : Sort.by(sortField).descending());
+        Page<Contact> msgPage = contactRepository.findOpenMsgs(
+                EazySchoolConstants.OPEN,pageable);
+        return msgPage;
+    }
+
+
+- explain: 
+
+int pageSize = eazySchoolProps.getPageSize(); : we catch the value from the properties 
+
+- We check the from the propertis 
+
+if(null!=eazySchoolProps.getContact() && null!=eazySchoolProps.getContact().get("pageSize")){
+pageSize = Integer.parseInt(eazySchoolProps.getContact().get("pageSize").trim());}
+
+Explain in the properties :
+
+#eazyschool.contact.pageSize=5 (បើវាអត់តម្លៃទេអោយយក pageSize = ​10)
+ 
+
+==
+
+
+eazyschool.pageSize=10
+
+eazyschool.contact.pageSize=5
+
+
+===
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

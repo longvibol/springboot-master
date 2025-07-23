@@ -1,0 +1,43 @@
+One to many 
+
+1. Class and Students 
+
+-View from Class: Many To One 
+
+one Class can have many student 
+
+- View from Students : One to Many 
+
+one student can join in Many Class 
+
+2. Book and Pages 
+
+- View from Book : One to Many 
+
+One book have Many Pages 
+
+- View from Pages to Book : Many to One
+
+Many pages combine together produce one Book 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,125 @@
+We can group our properties with the profile 
+
+- Dev
+- uat
+- prod 
+
++ Dev (Development) is where developers write and test new code. 
+
++ UAT (User Acceptance Testing) is a stage where end-users test the application to ensure it meets their needs.
+
++ Prod (Production) is the live environment where the application is available to the general public. 
+
+-----------------------------------------------------
+
+
+1. Create three different properties 
+
+Prod: 
+
+spring.config.activate.on-profile=prod
+
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.format_sql=false
+
+logging.level.root=ERROR
+logging.level.com.eazybytes.eazyschool.aspects = ERROR
+eazyschool.contact.pageSize=7
+
+
+Uat:
+
+
+spring.config.activate.on-profile=uat
+
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=false
+
+logging.level.root=WARN
+logging.level.com.eazybytes.eazyschool.aspects = WARN
+eazyschool.contact.pageSize=20
+
+
+Dev: this is the default 
+
+spring.config.import=application_prod.properties,application_uat.properties
+spring.profiles.active=dev (what we need to anable to select dev, uat or prod)
+
+#spring.thymeleaf.cache=false
+#spring.security.user.name=user
+#spring.security.user.password = 12345
+
+#spring.datasource.url=jdbc:h2:mem:testdb
+#spring.datasource.driverClassName=org.h2.Driver
+#spring.datasource.username=sa
+#spring.datasource.password=
+#spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+#spring.h2.console.enabled=true
+#spring.h2.console.path=/h2-console
+#spring.jpa.hibernate.ddl-auto=update
+#spring.jpa.show-sql=true
+
+
+#connection AWS 
+#spring.datasource.url=jdbc:mysql://spring.ctuigu8o2pl2.us-east-1.rds.amazonaws.com/eazyschool
+#spring.datasource.username=admin
+#spring.datasource.password=Money*168
+
+#connection with local Mysql 
+spring.datasource.url=jdbc:mysql://localhost:3306/eazyschool
+spring.datasource.username=root
+spring.datasource.password=admin
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.javax.persistence.validation.mode=none
+
+spring.data.rest.basePath=/data-api
+
+#debug=true
+#trace=true
+
+logging.level.root=INFO
+#logging.level.com.eazybytes.eazyschool.aspects = ERROR
+#logging.level.com.eazybytes.eazyschool.controller = TRACE
+
+
+# Initialize log group eazyschool_error 
+logging.group.eazyschool_error=com.eazybytes.eazyschool.aspects, com.eazybytes.eazyschool.controller
+# Set log level to log group eazyschool_error 
+logging.level.eazyschool_error=ERROR
+
+spring.output.ansi.enabled=ALWAYS
+
+eazyschool.pageSize=10
+
+eazyschool.contact.pageSize=5
+eazyschool.contact.successMsg=Your message is submitted successfully.
+
+eazyschool.branches[0]=NewYork
+eazyschool.branches[1]=Delhi
+eazyschool.branches[2]=Paris
+eazyschool.branches[3]=Singapore
+
+
+==============================================
+
+Note we can check in the uat or prod: 
+
+when we create the propertis that dev have it will override the properties 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

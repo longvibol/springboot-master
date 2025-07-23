@@ -1,0 +1,6 @@
+- Why we build REST API 
+Becuae we want other client to communicate each orther or exchange data 
+
+- we want other to export the data or update data 
+
+==> so in spring they create Spring Data Rest to create REST data for the other client by default 

@@ -1,0 +1,103 @@
+1. add the dependency 
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+
+2. Add properties.application 
+
+>> management.endpoints.web.base-path=/eazyschool/actuator (only the this path can access to actuator) : we know it is actuator for eazyschool 
+
+>> management.endpoints.web.exposure.include=* : expose all from Actuator 
+
+
+3. Add permission only the admin can see the actuator 
+
+- Add Admin roll only 
+
+.requestMatchers("/eazyschool/actuator/**").hasRole("ADMIN")
+
+- Ignor CSRF 
+
+.ignoringRequestMatchers("/eazyschool/actuator/**")
+
+
+4. Access URL
+
+http://localhost:8080/eazyschool/actuator?continue
+
+==> Result sample 
+
+object
+{1}
+_links
+{22}
+self
+{2}
+href
+:
+"http://localhost:8080/eazyschool/actuator"
+templated
+:
+false
+beans
+{2}
+href
+:
+"http://localhost:8080/eazyschool/actuator/beans"
+templated
+:
+false
+caches
+{2}
+href
+:
+"http://localhost:8080/eazyschool/actuator/caches"
+templated
+:
+false
+caches-cache
+{2}
+href
+:
+"http://localhost:8080/eazyschool/actuator/caches/{cache}"
+templated
+:
+true
+health-path
+{2}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

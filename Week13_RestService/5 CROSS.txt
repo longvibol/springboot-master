@@ -1,0 +1,38 @@
+ពេលយើងមាន running our code in deffernt server we need to deal with CORS
+
+In the brower this is create from brower to communicate with the back end by Brower 
+- CORS default protection from the Brower 
+
+We put only :
+
+@CrossOrigin(origins = "*")
+public class ContactRestController 
+
+to disable the CORS in the controller 
+
+----------------- CORS Vs CSRF
+
++ CSRF : Cross-Site Request Forgery
+
+- Type of Attack: CSRF is a security vulnerability where an attacker tricks a user into unknowingly submitting a request to a website where they are authenticated.
+
++CORS (Cross-Origin Resource Sharing)
+
+- - Type of Security Policy: CORS is a browser mechanism that controls how resources can be requested from different origins (domains).
+
+
+- Example: A frontend app hosted on example.com wants to fetch data from an API on api.example.org. Without proper CORS configuration, the browser blocks the request.
+- Prevention:
+- Setting Access-Control-Allow-Origin headers on the server
+- Defining allowed HTTP methods (GET, POST, etc.)
+- Configuring credentials (Access-Control-Allow-Credentials)
+Key Difference
+- CSRF is an attack, while CORS is a security policy enforced by browsers.
+- CSRF exploits user authentication, whereas CORS controls cross-origin requests.
+For a deeper dive, check out this Security Stack Exchange discussion or this developer guide.
+Would you like an example of how to implement CSRF protection in Spring Security? 🚀
+
+
+
+ 
+

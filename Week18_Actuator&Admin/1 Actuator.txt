@@ -1,0 +1,21 @@
+Concept : Actuator
+
+- it offers production-ready feature such as monitoring and metrics to spring boot application. 
+- Health 
+- Configuration properties 
+- Logging levels
+- Memory consumption 
+- Beans information 
+- Metrics etc. 
+
+1. Setup in the property:
+
+management.endpoints.web.exposure.include=*
+
+
+2. dependency 
+
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>

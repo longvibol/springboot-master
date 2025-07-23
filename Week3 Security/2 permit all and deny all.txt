@@ -1,0 +1,239 @@
+1. config to denyAll 
+
+@Configuration
+public class ProjectSecurityConfig {
+	
+	@Bean
+	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+		http.authorizeHttpRequests((requests) -> requests.anyRequest().denyAll());
+		http.formLogin(withDefaults());
+		http.httpBasic(withDefaults());
+		return http.build();
+	}
+	
+
+}
+
+2. config to permitAll 
+
+@Configuration
+public class ProjectSecurityConfig {
+	
+	@Bean
+	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+		http.authorizeHttpRequests((requests) -> requests.anyRequest().permitAll());	
+		http.formLogin(withDefaults());
+		http.httpBasic(withDefaults());
+		return http.build();
+	}
+	
+
+}
+
+------------------------------------------------------------------------
+
+3. Customize permission  
+
+@Bean
+	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+		http.authorizeHttpRequests((requests) -> requests
+				.requestMatchers("/","/home").permitAll()
+				.requestMatchers("/holidays/**").permitAll()
+				.requestMatchers("/contact").permitAll()
+				.requestMatchers("/saveMsg").permitAll()
+				.requestMatchers("/courses").authenticated()
+				.requestMatchers("/about").permitAll()
+				.requestMatchers("/assets/**").permitAll()				
+				);	
+		http.formLogin(withDefaults());
+		http.httpBasic(withDefaults());
+		return http.build();
+	}
+
+
+4. Disable CSRF 
+
+when someone know out token they can still our information, so we need to protect 
+by disable :
+
+@Bean
+	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+		http.csrf().disable().authorizeHttpRequests((requests) -> requests
+				.requestMatchers("/","/home").authenticated()
+				.requestMatchers("/holidays/**").permitAll()
+				.requestMatchers("/contact").permitAll()
+				.requestMatchers("/saveMsg").permitAll()
+				.requestMatchers("/courses").authenticated()
+				.requestMatchers("/about").permitAll()
+				.requestMatchers("/assets/**").permitAll()				
+				);	
+		http.formLogin(withDefaults());
+		http.httpBasic(withDefaults());
+		return http.build();
+	}
+
+
+5. Create our own In Memory user and password 
+
+@Bean
+	public InMemoryUserDetailsManager userDetailsManager() {
+		UserDetails admin = User.withDefaultPasswordEncoder()
+				.username("user")
+				.password("12345")
+				.roles("USER")
+				.build();
+		UserDetails user = User.withDefaultPasswordEncoder()
+				.username("admin")
+				.password("12345")
+				.roles("USER","ADMIN")
+				.build();		
+		return new InMemoryUserDetailsManager(user, admin);				
+				
+	}	
+
+Explain :
+
+- UserDetails : is the interface 
+- User.withDefaultPasswordEncoder() : is implementation 
+- .roles("USER","ADMIN") : our user Role
+
+Please make user we use @Bean inorder to make spring create object for us. 
+
+
+====================================================================================
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Security Example</title>
+</head>
+<body>
+
+    <h2>Welcome</h2>
+
+    <!-- Content visible only to authenticated users -->
+    <div sec:authorize="isAuthenticated()">
+        <p>Welcome, <span sec:authentication="name"></span>!</p>
+    </div>
+
+    <!-- Content visible only to users with ROLE_ADMIN -->
+    <div sec:authorize="hasRole('ADMIN')">
+        <p>Admin Panel</p>
+    </div>
+
+    <!-- Display user roles -->
+    <p>Your roles: <span sec:authentication="principal.authorities"></span></p>
+
+</body>
+</html>
+
+
+
+
+========================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

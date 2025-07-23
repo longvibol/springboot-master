@@ -1,0 +1,6 @@
+1. EC2: we need to create server and os by ourselves 
+
+2. Elastic Beanstalk : we chose the application what we want to install (.NET, Jar, Python)
+
+==> the best chose it Elastic Beanstalk 
+

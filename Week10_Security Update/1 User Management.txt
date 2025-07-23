@@ -1,0 +1,158 @@
+** Store the user in the database 
+
+1. Implement Authentication Provider interface 
+Overide Method 
+
+1.1 Authentication : we will get the authentication object as an input យើងបាន user and pass 
+==> after we get the user and pass we can use Autho_2 server to verify (or we can write the API call to another server to verify) 
++ this is call standard store authentication 
+
+In this course we will use our database to store the user name and password 
+
+
+1.2 : support: our customize logic that we fetch the credintail from the database like: Ldab server or Autho_2 Server 
+
+----------------------------------------------
+
+Step by Step to move user and password store in database credential 
+
+Note:
+
+to fetch the Person from Database to compare normally we use email to fetch the Person. 
+ដោយសារតែបើយកទាញយកមកទាំង Password មកទៀតខ្លាចគេ​ ឃើញតាមផ្លូវ
+
+------------------------------------------------------------------------------
+
+Explain : 
+
+1. សម្រាប់ Authentication យើងត្រូវការ Return Authentication ចឹងដោយសារតែវាជា Interface យើងត្រូវយក class អ្វីមួយយកមក Implementation : UsernamePasswordAuthenticationToken​ វាត្រូវការ Parameter 3 ដើម្បីដាក់ចូល
+
+- user, pwd, and role 
+
+អ្វីដែលយើងមាន user, pwd នៅសល់ role ចឹងយើងទៅធ្វើការបង្កើត Role នឹងដាក់ចូល​ អោយគ្រប់ ដើម្បីអោយ Spring create token for login. យើងឃើញថានៅកន្លែង Role នឹងវាត្រូវការ Collection<? extends GrantedAuthority> authorities
+
+ចឹងយើងទៅរកអីមួយមក Implementation មកបានហើយ ។
+
+បើយើងពិនិត្យមើលទៅវាសម្រាប់ GrantedAuthority យើងរកតែ Implement from collection មួយមកបានហើយ ដូចជា List  
+
+List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+
+ចឹងយយើអាច បង្កើត role នឹងបានហើយ ដោយយកទិន្នន័យពី database យកមកដាក់ចូល ហើយត្រូវចាំថា សម្រាប់ "ROLE_" ត្រូវដាក់ចូលបន្ថែមដោយសារតែនៅក្នុង Spring vir ot ban create អោយតែ ឬជាជម្រើសយើងអាចដាក់ចូលពេល save into database ក៏បានដែលតែវាច្រើនពេក 
+
+==============================================
+
+
+@Component
+public class EazySchoolUsernamePwdAuthenticationProvider implements AuthenticationProvider{
+	
+	@Autowired
+	private PersonRepository personRepository;
+
+	@Override
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+		String email = authentication.getName();
+		String pwd = authentication.getAuthorities().toString();
+		// fetching person authentication from database 
+		
+		Person person= personRepository.readByEmail(email);
+		if(null!= person && person.getPersonId()>0 && pwd.equals(person.getPwd())) {
+			return new UsernamePasswordAuthenticationToken(person.getName(), pwd,getGrantedAuthorities(person.getRoles()));
+		}else {
+			throw new BadCredentialsException("Invalid credentials!");
+		}
+		
+		
+	}
+
+	private List<GrantedAuthority> getGrantedAuthorities(Roles roles) {
+		List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+		grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_"+roles.getRoleName()));
+		return grantedAuthorities;
+	}
+
+	@Override
+	public boolean supports(Class<?> authentication) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}
+
+===================================================================================
+
+
+2. supports 
+
+@Override
+	public boolean supports(Class<?> authentication) {
+		 return authentication.equals(UsernamePasswordAuthenticationToken.class);
+	}
+
+
+This method we try to check if the "authentication: what we get from authenticate implement above" it is the same datatype of "UsernamePasswordAuthenticationToken" 
+
+public UsernamePasswordAuthenticationToken(Object principal, Object credentials) {
+		super(null);
+		this.principal = principal;
+		this.credentials = credentials;
+		setAuthenticated(false);
+	}
+
+--
+
+this.principal = principal; : store the user name 
+this.credentials = credentials; store the password 
+
+កន្លែងនឹងវាជាអ្នក ពិនិត្យមើល token ត្រូវគ្នាអត់
+
+
+===================================Importance 
+
+After we get login: the name of the user will show in the page why? 
+Because when we use. 
+
+UsernamePasswordAuthenticationToken(person.getName(), pwd, getGrantedAuthorities(person.getRoles()));  
+
+- Spring will store : person.getName() in the token that why we can see the Name in the token 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

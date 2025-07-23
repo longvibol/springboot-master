@@ -1,0 +1,40 @@
+Configure display in HTML from Thymeleaf 
+
+1. Link detail 
+
+https://www.thymeleaf.org/doc/articles/springsecurity.html
+
+===============================================================
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<div class="collapse navbar-collapse" id="navbarScroll">
+                    <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll">
+                        <li class="nav-item" sec:authorize="isAnonymous()">
+                            <a th:href="@{/home}" class="nav-link" aria-current="page">Home</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAnonymous()">
+                            <a th:href="@{/courses}" class="nav-link">Courses</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAnonymous()">
+                            <a th:href="@{/contact}" class="nav-link">Contact</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAnonymous()">
+                            <a th:href="@{/login}" class="nav-link">LogIn</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a th:href="@{/dashboard}" class="nav-link">Dashboard</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a th:href="@{/logout}" class="nav-link">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+
+
+Explain : 
+- sec:authorize="isAnonymous() = who ever can view 
+- sec:authorize="isAuthenticated() = have authoritce 
+

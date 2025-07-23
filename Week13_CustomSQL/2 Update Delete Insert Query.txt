@@ -1,0 +1,23 @@
+when we want to write the Query : Update, Delete, Insert 
+
+** We need to mention two annotation **: 
+
+@Modifying ប្រាប់ទៅ data base we will change inside the db 
+
+@Transactional : it will create​ transaction binary operation មុនពេលចាប់ផ្តើម this method 
+the spring data jpa will start the transction ពេលដំណើរការចប់អស់ហើយ វានឹងធ្វើការ បិទ Transction តែក្នុងករណីដែល
+វាមិនបានបញ្ចប់ចឹង​(Runtime expection) វានឹង Roll back ឡើងវិញ
+
+Noted : we can create place holder 
+
+Ex: 
+
+@Transactional
+	@Modifying
+	@Query("UPDATE Contact c SET c.status = ?1 WHERE c.contactId = ?2")
+	int updateStatusById(String status, int id);
+}
+
+
+
+

@@ -1,0 +1,60 @@
+Link: AWS
+
+https://us-east-1.console.aws.amazon.com/rds/home?region=us-east-1#database:id=spring;is-cluster=false
+
+admin
+
+Money*168
+
+- Inbound rules : from other to AWS 
+
+- Outbound rules : traffic from AWS to outside it outbound 
+
+https://us-east-1.console.aws.amazon.com/rds/home?region=us-east-1#databases:
+
+
+1.Create AWS Database 
+
+1.1 Databases : Click on Create Database -> Chose MySQL 
+- Free Tier 
+- Single-AZ DB 
+
++ Credentials : Master username : admin, password : Money*168
++ Public Access : Yes 
+
+
+2. Setup the inbound role : Ipv4 and Ipv6 
+
+3. in application.properties 
+
+spring.datasource.url=jdbc:mysql://spring.ctuigu8o2pl2.us-east-1.rds.amazonaws.com/eazyschool
+spring.datasource.username=admin
+spring.datasource.password=Money*168
+
+4. use sql client to connection to AWS 
+
+- Name: Can put anything we want "SpringAWS"
+- Server Address : from AWS: spring.ctuigu8o2pl2.us-east-1.rds.amazonaws.com
+- User : admin
+- Password : Money*168
+
+
+**** Noted we need to disable in our AWS database because it will be activate again in 7 days auto *** 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

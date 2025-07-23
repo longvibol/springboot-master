@@ -1,0 +1,219 @@
+- The communication with other server we use REST API 
+- we can communication between other Application 
+- Advantage of using REST API 
+
+1: no need to define schema (they can communicate with the XML or JSON*)
+-SOAP is heavey data communicate 
+- Rest with JSON is light Weity 
+
+Gold : WE will but REST Web Service 
+
+REST : Representational State Transfer 
+
+Ex: 
+
+- Mobile App <-> Backend Server 
+- Backend Server 1 <-> Backend Server 2
+- Web App built 
+
+
+===================================================== 
+
+There are two style that we can build Web Server REST 
+
+1. By Spring MVC 
+2. In Web Service REST : we want to send to the other only the data and they don't need to view Resolver (by puting annotation @ResponseBody 
+
+
+-------------------------------------------------------
+
+Step by Step crate Rest 
+
+1. crate new package .rest 
+
+1.1 create class reaspond to request 
+
+@Slf4j
+@Controller
+@RequestMapping(path="/api/contact")
+public class ContactRestController {
+	
+	@Autowired
+	ContactRepository contactRepository;
+	
+	@GetMapping("/getMessagesByStatus")
+	@ResponseBody
+	public List<Contact> getMessageByStatus(@RequestParam String status){
+
+		return contactRepository.findByStatus(status);
+	}
+
+}
+
+
+1.2 Config the security 
+
+- Allow csrf to the new rest controller 
+
+.csrf(csrf -> 
+	        		csrf
+	        		.ignoringRequestMatchers("/saveMsg","/public/**","/api/**")
+	        		) 
+
+
+
+
+.requestMatchers("/api/**").authenticated() : when they request to this api need to have authenticated 
+
+
+
+* Testing with Postman 
+
+- public List<Contact> getMessageByStatus when java send the List of object Contact to postman. the spring boot will use Jason library to convert from POJO class to json format 
+
+
+Example : send the request from the request param 
+
+@Slf4j
+@Controller
+@RequestMapping(path="/api/contact")
+public class ContactRestController {
+	
+	@Autowired
+	ContactRepository contactRepository;
+	
+	@GetMapping("/getMessagesByStatus")
+	@ResponseBody
+	public List<Contact> getMessageByStatus(@RequestParam String status){
+
+		return contactRepository.findByStatus(status);
+	}
+
+}
+
+- @ResponseBody : tell java to convert from Java Class to Json 
+
+
+----------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,94 @@
+In order to write our own custom query we have 3 annotation: 
+
+1. @Query: យើងសរសេរ query directly on repository methods សរសេរកូដខ្លួនឯង ចឹងពេលដែលយើងធ្វើការប្តូរ Data Base 
+យើងមិនចាំបាច់ប្តូរកូដ យើងទេព្រោះ យើងអោយ JPA ជាអ្នក បក់ប្រែទៅ database យើង
+
+-there are two type of @Query : JPQL and Native SQL query 
+
+2. @NamedQuery : Used to define a JPQL 
+3. @NamedNativeQuery : Used to define a native SQL 
+
++ What is JPQL format : 
+
+- Java Persistence Query Language (JPQL) it define by JPA : យើងសរសេរកូដ ហើយ JPA translate query ory yerng 
+the database have difference syntax 
+
+Link: https://www.w3schools.com/sql/sql_top.asp
+
+
+Note: Not all database systems support the SELECT TOP clause. MySQL supports the LIMIT clause to select a limited number of records, while Oracle uses FETCH FIRST n ROWS ONLY and ROWNUM.
+
+
+Inside the JPQL we no need to define the field or table inside the query 
+
+Example: 
+
+@Query("SELECT c FROM Contact c WHERE c.contactId =?1 ORDER BY c.ceated DESC")
+= 
+List<Contact> findByIdOrderByCreatedDesc(long id) 
+
+Explain : 
+
++ ?1 = ភ្ជាប់ទៅ Parameter ទី ១​
++ Contact : is our entiy or model inside the java class
+
+
+Ex2:
+
+@Query("SELECT c FROM Contact c WHERE c.status = :status")
+Page<Contact> findByStatus(String status, Pageable pageable);
+
+Explain : 
+
+ពេលដែលយើងដាក់ annotation @Query នៅលើ Method យើងចឹង JPA វានឹងធ្វើការមើល Query យើងសិន សល់ប៉ុន្មនទៀត JPA will reaspone for Pageable. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

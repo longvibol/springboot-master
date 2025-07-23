@@ -1,0 +1,181 @@
+1. Add dependency 
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+
+2. Add annotation in our controller 
+
+@RequestMapping(path="/api/contact",produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+
+public class ContactRestController {}
+
+3. In Post Main 
+
+Headers : 
+Key: Accept ; Value: application/xml
+
+==> Result 
+
+<List>
+    <item>
+        <createdAt>2025-06-09T00:00:00</createdAt>
+        <createdBy>DBA</createdBy>
+        <updatedAt>2025-06-09T16:29:20</updatedAt>
+        <updatedBy>admin@.com</updatedBy>
+        <contactId>4</contactId>
+        <name>Adam</name>
+        <mobileNum>2176436587</mobileNum>
+        <email>zadam@gmail.com</email>
+        <subject>Regarding a job</subject>
+        <message>Wanted to join as teacher</message>
+        <status>Close</status>
+    </item>
+    <item>
+        <createdAt>2025-06-09T00:00:00</createdAt>
+        <createdBy>DBA</createdBy>
+        <updatedAt/>
+        <updatedBy/>
+        <contactId>8</contactId>
+        <name>John</name>
+        <mobileNum>5465765453</mobileNum>
+        <email>doejohn@gmail.com</email>
+        <subject>Holiday Query</subject>
+        <message>Query on upcoming holidays</message>
+        <status>Close</status>
+    </item>
+    <item>
+        <createdAt>2025-06-09T00:00:00</createdAt>
+        <createdBy>DBA</createdBy>
+        <updatedAt>2025-06-09T16:28:41</updatedAt>
+        <updatedBy>admin@.com</updatedBy>
+        <contactId>9</contactId>
+        <name>Taniya Bell</name>
+        <mobileNum>3987463827</mobileNum>
+        <email>belltaniya@gmail.com</email>
+        <subject>Child Scholarship</subject>
+        <message>Can my child get scholarship?</message>
+        <status>Close</status>
+    </item>
+    <item>
+        <createdAt>2025-06-09T00:00:00</createdAt>
+        <createdBy>DBA</createdBy>
+        <updatedAt>2025-06-09T16:30:25</updatedAt>
+        <updatedBy>admin@.com</updatedBy>
+        <contactId>12</contactId>
+        <name>Cloe Rubio</name>
+        <mobileNum>9854438719</mobileNum>
+        <email>rubio987@gmail.com</email>
+        <subject>Correct Date of Birth</subject>
+        <message>My Child DOB needs to be corrected</message>
+        <status>Close</status>
+    </item>
+    <item>
+        <createdAt>2025-06-09T00:00:00</createdAt>
+        <createdBy>DBA</createdBy>
+        <updatedAt>2025-06-09T16:29:02</updatedAt>
+        <updatedBy>admin@.com</updatedBy>
+        <contactId>13</contactId>
+        <name>Camilla Stein</name>
+        <mobileNum>6545433254</mobileNum>
+        <email>camillas@gmail.com</email>
+        <subject>Transport Query</subject>
+        <message>Is Transport provided?</message>
+        <status>Close</status>
+    </item>
+    <item>
+        <createdAt>2025-06-09T00:00:00</createdAt>
+        <createdBy>DBA</createdBy>
+        <updatedAt/>
+        <updatedBy/>
+        <contactId>16</contactId>
+        <name>Ian Moreno</name>
+        <mobileNum>2312231223</mobileNum>
+        <email>moreno.ian@gmail.com</email>
+        <subject>Food feedback</subject>
+        <message>Food quality can be improved</message>
+        <status>Close</status>
+    </item>
+
+==========================================================================
+
+In order to control the field that we can limit from the Jackson library 
+
+- In our BaseEntity 
+
+@Data
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public class BaseEntity {
+
+    @CreatedDate
+    @Column(updatable = false)
+    @JsonIgnore
+    private LocalDateTime createdAt;
+
+    @CreatedBy
+    @Column(updatable = false)
+    @JsonIgnore
+    private String createdBy;
+
+    @LastModifiedDate
+    @Column(insertable = false)
+    @JsonIgnore
+    private LocalDateTime updatedAt;
+
+    @LastModifiedBy
+    @Column(insertable = false)
+    @JsonProperty("updteBywho")
+    private String updatedBy;
+}
+
+
+We use : 
+
+@JsonIgnore : Not send to cosumber 
+@JsonProperty("updteBywho") : to rename our output 
+
+
+==> 
+
+ {
+        "contactId": 4,
+        "name": "Adam",
+        "mobileNum": "2176436587",
+        "email": "zadam@gmail.com",
+        "subject": "Regarding a job",
+        "message": "Wanted to join as teacher",
+        "status": "Close",
+        "updteBywho": "admin@.com"
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

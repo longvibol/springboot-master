@@ -1,0 +1,86 @@
+We need to add the logic in the register and login to hash the password and store 
+
+1. int he ProjectSecurityConfig.java
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+	    return new BCryptPasswordEncoder();
+	}
+
+We tell the spring that we will use BCryptPasswordEncoder for hashing algorithm 
+
+2. in the register 
+
+// fetching person authentication from database 		
+		Person person= personRepository.readByEmail(email);
+		
+		if(null!= person && person.getPersonId()>0 && passwordEncoder.matches(pwd, person.getPwd())) {
+			return new UsernamePasswordAuthenticationToken(person.getName(), null, getGrantedAuthorities(person.getRoles()));
+		}else {
+			throw new BadCredentialsException("Invalid credentials!");
+		}
+
+==> Before we save to the database we want to hashing the pwd. 
+
+passwordEncoder.matches(pwd, person.getPwd())
+
+2.2 in the personService 
+
+
+// when register we hasing the plain text from the user
+        person.setPwd(passwordEncoder.encode(person.getPwd()));
+
+
+
+==================================================================================
+
+
+3. FieldsValueMatchValidator : compare the validation on pwd and confirm pwd 
+
+@Override
+    public boolean isValid(Object value,ConstraintValidatorContext context) {
+        Object fieldValue = new BeanWrapperImpl(value)
+                .getPropertyValue(field);
+        Object fieldMatchValue = new BeanWrapperImpl(value)
+                .getPropertyValue(fieldMatch);
+        if (fieldValue != null) {
+            return fieldValue.equals(fieldMatchValue);
+        } else {
+            return fieldMatchValue == null;
+        }
+    }
+
+Note: we need to disable the validation from spring data jpa, if not it will validation two time 
+1 is from spring security and 2 from spring data jpa
+
+4. application.properties
+
+spring.jpa.properties.javax.persistence.validation.mode=none
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

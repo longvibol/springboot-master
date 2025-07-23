@@ -1,0 +1,172 @@
+1. Check spring boot version in the pom.xml
+
+<artifactId>spring-boot-starter-parent</artifactId>
+<version>3.4.2</version>
+
+2. Spring boot admin (reference) 
+
+https://github.com/codecentric/spring-boot-admin
+
+
+<dependency>
+	<groupId>de.codecentric</groupId>
+	<artifactId>spring-boot-admin-starter-client</artifactId>
+	</dependency>
+
+- send the format to the admin server that they can understand each other 
+
+-------------------------------------------------------------------------------------
+
+*** Step by Step Create Spring Admin ***  
+
+1.https://start.spring.io/
+
+Add Dependency  : codecentric's Spring Boot Admin (Server) 
+
+2. Spring Web 
+
+3. In the main class that run spring boot : 
+
+@EnableAdminServer 
+
+Example :
+
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
+
+@EnableAdminServer
+@SpringBootApplication
+public class EazyschoolAdminApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(EazyschoolAdminApplication.class, args);
+	}
+
+}
+
+
+4. in the property.change port 
+
+spring.application.name=EazyschoolAdminApplication
+server.port=9000
+
+Note check the admin version in Pom.xml 
+
+<spring-boot-admin.version>3.5.0</spring-boot-admin.version>
+
+Example where we put :
+
+<properties>
+		<java.version>21</java.version>
+		<spring-boot-admin.version>3.5.0</spring-boot-admin.version>
+	</properties>
+
+============================================================================================
+
+*** In the Spring application *** 
+
+1. In pom.xml
+
+- Add version of the admin version 
+
+<properties>
+		<java.version>21</java.version>
+		<spring-boot-admin.version>3.5.0</spring-boot-admin.version>
+	</properties>
+
+- Add dependency 
+
+<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+		</dependency>
+
+------------- client version 
+
+<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-dependencies</artifactId>
+				<version>${spring-boot-admin.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+------- this dependencyManagement is working with the client dependency 
+
+<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-micrometer</artifactId>
+			<version>7.0.6.Final</version>
+		</dependency>
+
+--explain : hibernate-micrometer : to communicate the information from client to admin 
+
+2. in the property.applicaiton 
+
+spring.application.name=EazySchool (name of the client) 
+
+# SpringBoot Admin Server Configuration
+spring.boot.admin.client.url=http://localhost:9000 (port number of Admin server) 
+spring.boot.admin.client.instance.metadata.user.name=admin@.com (admin user login) 
+spring.boot.admin.client.instance.metadata.user.password=admin ( password but need to be update next step) 
+
+============================
+
+Testing : Run all this two spring app 
+
+go to url: http://localhost:9000/wallboard
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
